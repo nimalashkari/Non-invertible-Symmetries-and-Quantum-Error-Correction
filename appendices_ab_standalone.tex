@@ -222,6 +222,43 @@ statement:
     (-)\otimes(-)=(+).
 \end{align}
 
+\subsubsection{Operator Algebraic Structures on Locally Compact Groups}
+
+The discussion of finite groups above naturally embeds into a broader framework. For a locally compact group $G$, the construction of classical and quantum observable algebras begins with the ``seed'' space of continuous complex-valued functions with compact support, $C_c(G)$. By equipping this space with different multiplication rules and completing it under their corresponding natural norms, we generate two distinct mathematical branches: the classical geometry and the quantum symmetry.
+
+To elevate these spaces to the level of exact quantum measurements (von Neumann algebras), they are represented as operators acting on the physical phase space $L^2(G)$, and closed under the weak operator topology (the double commutant).
+
+\paragraph{1. The Classical Geometry Branch (Commutative)}
+This branch treats $G$ strictly as a classical, static geometrical manifold.
+\begin{itemize}
+    \item \textbf{Multiplication:} Pointwise, $(f \cdot g)(x) = f(x)g(x)$.
+    \item \textbf{Natural Norm:} The supremum norm, $\|f\|_\infty = \sup_{x \in G} |f(x)|$.
+    \item \textbf{Norm Closure (C*-algebra):} Completing $C_c(G)$ under the supremum norm yields $C_0(G)$, the space of continuous functions vanishing at infinity.
+    \item \textbf{Weak Closure (von Neumann Algebra):} Representing $C_0(G)$ on $L^2(G)$ via pointwise multiplication and taking the double commutant yields $L^\infty(G)$, the algebra of all essentially bounded measurable functions. This represents the macroscopic classical observables.
+\end{itemize}
+
+\paragraph{2. The Quantum Symmetry Branch (Non-Commutative)}
+This branch treats $G$ as a dynamical set of active translations or symmetries.
+\begin{itemize}
+    \item \textbf{Multiplication:} Left convolution, $(f * g)(x) = \int_G f(y)g(y^{-1}x) dy$.
+    \item \textbf{Natural Norm:} The $L^1$ norm, $\|f\|_1 = \int_G |f(x)| dx$.
+    \item \textbf{Norm Closure (Banach *-algebra):} Completing $C_c(G)$ under the $L^1$ norm yields $L^1(G)$, the space of absolutely integrable functions. This represents the classical states (probability densities).
+    \item \textbf{Weak Closure (von Neumann Algebra):} Representing $L^1(G)$ on $L^2(G)$ via left convolution and taking the double commutant yields $\mathcal{L}(G)$, the left group von Neumann algebra. This represents the full non-commutative algebra of quantum symmetries.
+\end{itemize}
+
+\paragraph{3. The Discrete Simplification}
+When the group $G$ is a \textbf{discrete group} (such as the integers $\mathbb{Z}$ or the free group $F_2$), the continuous topological machinery dramatically simplifies into the algebra of sequences.
+\begin{itemize}
+    \item \textbf{The Measure:} The Haar integral reduces to a simple sum over group elements ($\int_G dx \to \sum_{x \in G}$).
+    \item \textbf{The Seed Space:} The requirement of ``compact support'' simply means ``finite support.'' Therefore, the seed space $C_c(G)$ becomes exactly the algebraic group ring $\mathbb{C}[G]$, consisting of formal finite linear combinations of group elements.
+    \item \textbf{The Classical Branch:} The space of continuous functions $C_0(G)$ becomes $c_0(G)$, the space of sequences that decay to zero. The von Neumann algebra $L^\infty(G)$ becomes $\ell^\infty(G)$, the space of all bounded sequences.
+    \item \textbf{The Quantum Branch:} The Banach algebra $L^1(G)$ becomes $\ell^1(G)$, the space of absolutely summable sequences. Left convolution simplifies to a discrete, matrix-like product: $(f * g)(x) = \sum_{y \in G} f(y)g(y^{-1}x)$.
+\end{itemize}
+
+If the discrete group is further restricted to be a \textbf{finite group}, all notions of infinite sequences and topological closures vanish entirely. The limits collapse, and the spaces perfectly coincide as finite-dimensional vector spaces: $\mathbb{C}[G] \cong \ell^1(G) \cong \mathcal{L}(G)$.
+
+The generalized Fourier transform serves as the mathematical bridge between these branches, intertwining the commutative geometry of $L^\infty(G)$ with the non-commutative dynamics of $\mathcal{L}(G)$ to form a complete Locally Compact Quantum Group.
+
 \subsection{Parallel with operator algebraic quantum error correction}
 
 The left/right regular decomposition also has a direct interpretation in
