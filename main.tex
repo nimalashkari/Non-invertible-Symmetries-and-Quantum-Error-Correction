@@ -1948,22 +1948,26 @@ and its commutant is
     &(\mathcal{L}(G))'=\{U'_g\}''
 \end{align}
 This is the left/right representation duality.
-For finite $G$, we have matrix algebras, therefore we have the decomposition
+For finite $G$, we have the inclusion of matrix algebras $\mathcal{L}(G)\subset B(L^2(G))$, which implies the decomposition
 \begin{align}
-    L^2(G)=\oplus_{r\in\hat{G}} \mathcal{H}_r\otimes \mathcal{H}'_r
-\end{align}
-with $r$ elements of the {\it dual group} $\hat{G}$, and $\mathcal{H}'_r$ is the multiplicity space \footnote{Note that a dual group $\hat{G}$ is a group only if $G$ is Abelian.}. Elements of the group algebra $\mathcal{L}(G)$ are $\sum_h f_h U_h$ and we have
-\begin{align}
+&L^2(G)=\oplus_{r\in\hat{G}} \mathcal{H}_r\otimes \mathcal{H}'_r\nn\\
     &\mathcal{L}(G)=\oplus_r \mathcal{L}^r(G)\otimes 1'_r\nn\\
     &\mathcal{L}'(G)=\oplus_r 1_r\otimes (\mathcal{L}(G)')^{r}
 \end{align}
-where $\mathcal{L}(G)^r$ is an irreducible representation labeled by $r$. The multiplication operation in $\mathcal{L}(G)$ is left convolution
+with an irreducible representation $r$ labeling elements of the {\it dual group} $\hat{G}$ with $\mathcal{L}^r(G)=B(\mathcal{H}_r)$, and $\mathcal{H}'_r$ the multiplicity space \footnote{Note that a dual group $\hat{G}$ is a group only if $G$ is Abelian.}. 
+
+The multiplication operation in $\mathcal{L}(G)$ is left convolution
 \begin{align}
     &\sum_{h,g} f_1(h) f_2(g) U_h U_g=\sum_{h,g} f_1(h) f_2(g) U_{h g}=\sum_h (f_1*f_2)(h) U_h\nn\\
     &(f_1*f_2)(h)=\sum_g f_1(h g^{-1})f_2(g)
 \end{align}
 whereas multiplication in $\mathcal{L}(G)'$ is right convolution. 
-The conditional expectation $\mathcal{E}=\frac{1}{|G|}\sum_{g\in G} U_g(\cdot ) U_g^\dagger$ projects $\mathcal{E}:B(L^2(G))\to \mathcal{L}(G)$. Applied to the operators in $\mathcal{L}(G)'$ it gives a state on this subalgebra which is called the {\it Plancherel measure}
+The conditional expectations
+\begin{align}
+ &\mathcal{E}':B(L^2(G))\to \mathcal{L}'(G),\qquad \mathcal{E}=\frac{1}{|G|}\sum_{g\in G} U_g(\cdot ) U_g^\dagger   \nn\\
+ &\mathcal{E}:B(L^2(G))\to \mathcal{L}(G),\qquad \mathcal{E}=\frac{1}{|G|}\sum_{g\in G} U'_g(\cdot ) (U'_g)^\dagger   \ .
+\end{align}
+Applying $\mathcal{E}$ to the operators in $\mathcal{L}(G)'$ gives a state on this subalgebra which is called the {\it Plancherel measure}
 \begin{align}
     \mathcal{E}(X')=\sum_r \frac{d_r}{|G|}\text{Tr}_{\mH'_r}(X')
 \end{align}
