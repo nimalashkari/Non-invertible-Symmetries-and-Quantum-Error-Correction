@@ -234,14 +234,14 @@ operator-algebra QEC, a correctable algebra has the canonical form
     B\left(\bigoplus_x \mH_{L,x}\otimes \mH_{G,x}\right),
 \end{align}
 where $\mH_{L,x}$ is the protected logical subsystem and $\mH_{G,x}$ is a
-gauge, syndrome, or environment subsystem. Appendix~\ref{sec:group-case-appendix}
-realizes precisely this structure with
+gauge or syndrome subsystem. The regular representation discussed above realizes precisely this structure with
 \begin{align}
     \mH_{L,r}=\mH_r,\qquad
     \mH_{G,r}=\mH_r^*,\qquad
     \mA_{\mathrm{log}}=\mathcal L(G)
     =\bigoplus_{r\in\hat G}B(\mH_r)\otimes 1_{\mH_r^*}.
 \end{align}
+Note that in standard OAQEC, this structure typically describes a proper code subspace of the full physical Hilbert space. Here, the toy model treats the entire space $L^2(G)$ as the code space.
 The commutant
 \begin{align}
     \mA_{\mathrm{log}}'
@@ -264,7 +264,7 @@ version of erasing the gauge subsystem:
 where $P_r$ projects onto $\mH_r\otimes\mH_r^*$ and
 $\tau_{\mH_r^*}$ is the normalized trace on $B(\mH_r^*)$. This is the same map
 as the average over the right regular action. Its predual sends a state to one
-with the same logical density matrix in each $r$-sector but with the multiplicity
+with the same reduced density matrix on the logical subsystem in each $r$-sector but with the multiplicity
 factor replaced by the maximally mixed gauge state. In other words, the map
 preserves expectation values of all logical operators in $\mathcal L(G)$ and
 forgets the right-regular/gauge degrees of freedom.
@@ -272,11 +272,8 @@ forgets the right-regular/gauge degrees of freedom.
 This is the exact algebraic analogue of the information--disturbance viewpoint
 on quantum error correction. For an ordinary channel, correctability of the
 output is equivalent, up to quantitative constants in the approximate setting,
-to the complementary channel being forgetful about the input. In the language of
-Section~2 of Hayden--Penington
-\href{https://arxiv.org/pdf/1706.09434}{arXiv:1706.09434}, this is the
-decoupling duality between recoverability and forgetfulness of the environment.
-Here the ``environment'' is the commutant algebra $\mathcal L(G)'$: correcting
+to the complementary channel being forgetful about the input. This fundamental decoupling duality between recoverability and forgetfulness of the environment was established in the OAQEC literature (e.g., B\'eny, Kempf, and Kribs (2007) and Kretschmann, Schlingemann, and Werner (2008)), and is discussed in modern contexts such as Section~2 of Hayden--Penington
+\href{https://arxiv.org/pdf/1706.09434}{arXiv:1706.09434}. Here the ``environment'' is the commutant algebra $\mathcal L(G)'$: correcting
 the logical algebra $\mathcal L(G)$ means that the complementary/right algebra
 may contain the central sector label $r$, but it must not contain quantum
 information inside the protected factor $\mH_r$.
@@ -286,7 +283,7 @@ Choosing a single irrep block $r$ gives a protected matrix algebra
 $B(\mH_r)$, while $\mH_r^*$ is the corresponding gauge subsystem. Correcting
 only a chosen block is analogous to decoding a chosen subspace. Correcting the
 whole algebra $\mathcal L(G)$ means correcting all blocks at once, including the
-central classical label $r$. Thus Appendix~\ref{sec:group-case-appendix} gives a
+central classical label $r$. Thus this setting gives a
 group-theoretic toy model of the operator-algebraic QEC slogan:
 \begin{align}
     \begin{gathered}
