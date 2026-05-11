@@ -4,6 +4,8 @@
 \usepackage{hyperref}
 \usepackage{subcaption}
 \usepackage{amsmath, amssymb}
+\usepackage{float}
+\usepackage{mathtools}
 \usepackage{bbm}
 \usepackage{xcolor}
 \usepackage{tikz}
@@ -11,6 +13,7 @@
 \usepackage[normalem]{ulem}
 \usepackage{braket}
 \usepackage{booktabs, tabularx}
+\usetikzlibrary{positioning,decorations.pathmorphing}
 \newcommand{\Tr}{\mathrm{tr}}
 \newcommand{\KW}{\mathrm{KW}}
 \newcommand{\mA}{\mathcal{A}}
@@ -103,7 +106,7 @@ we find that the recovery map is given by the non-unitary dual superoperator.}
     [B:A]=\frac{dim(\mA)}{dim(\mB)}=r^{2}\ .
   \end{align}
   From the point of view of operator algebraic QEC, every QEC code is an inclusion
-  of von Neumann algebra and vice versa. A QEC code is often describe in the
+  of von Neumann algebra and vice versa. A QEC code is often described in the
   Schrodinger picture as an isometry $V:\mH_{code}\to \mH_{physical}$ which
   corresponds to a particular representation of the inclusion
   \begin{align}
@@ -913,7 +916,6 @@ we have a charge operator $V_q$ for each region $V_{q,\alpha}$, $\alpha=1,\cdots
 
   \section{Introduction to non-invertible symmetry}
 
-  \SA{Given the new structure of the paper, I don't know if we need section 8, maybe the content of section 8.2 can be moved to an introduction but happy with whatever you think is best.}
 
   \subsection{Motivating examples}
 
@@ -1165,35 +1167,38 @@ we have a charge operator $V_q$ for each region $V_{q,\alpha}$, $\alpha=1,\cdots
   passively correctable subalgebra \cite{wang2025manyfacesofnis}.
 
   % \subsubsection{GNS Representation and QEC}
-
-  \begin{table}[t]
-    \caption{Summary of error correction maps and implementations for KW}
-    \label{tab:kw-summary}
-    \centering
-    \scriptsize
-    \setlength{\tabcolsep}{4pt}
-    \renewcommand{\arraystretch}{1.05}
-    \begin{tabularx}
-      {\textwidth}{lXX} \toprule \textbf{Representation} & \textbf{Noise map} &
-      \textbf{Recovery map} \\
-      \midrule Periodic lattice (N site) & \textbf{Non-invertible} operator
-      $\textrm{KW}$ & \textbf{Non-invertible} dual operator $\textrm{KW}^{\dagger}$
-      \\
-      Ancilla lattice (Stinespring) & \textbf{Unitary} defect movement
-      $\displaystyle \mathcal{N}(O)=U^{\dagger}OU$, $\ U=\prod_{j}R_{d\ell}(j)&\textbf
-      {Unitary}conjugate map UOU^{\dagger}$ \\
-      GNS Hilbert space & \textbf{Non-unitary} GNS implementer $D$ & \textbf{Unitary}
-      GNS Petz recovery implementer \\
-      \bottomrule
-    \end{tabularx}
-  \end{table}
+\begin{table}[t]
+  \caption{Summary of error correction maps and implementations for KW}
+  \label{tab:kw-summary}
+  \centering
+  \scriptsize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{lXX}
+    \toprule
+    \textbf{Representation} & \textbf{Noise map} & \textbf{Recovery map} \\
+    \midrule
+    Periodic lattice ($N$ site) &
+    \textbf{Non-invertible} operator $\textrm{KW}$ &
+    \textbf{Non-invertible} dual operator $\textrm{KW}^{\dagger}$ \\
+    
+    Ancilla lattice (Stinespring) &
+    \textbf{Unitary} defect movement $\mathcal{N}(O)=U^{\dagger}OU$, $U=\prod_{j}R_{d\ell}(j)$ &
+    \textbf{Unitary} conjugate map $UOU^{\dagger}$ \\
+    
+    GNS Hilbert space &
+    \textbf{Non-unitary} GNS implementer $D$ &
+    \textbf{Unitary} GNS Petz recovery implementer \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
   \subsection{Continuum Examples}
 
   Building on the lattice example we saw earlier, we will frame well-known examples
   of non-invertible symmetries in continuum quantum field theory in terms of error
   correcting codes. To this end, it is helpful to use the DHR approach to algebraic
-  quantun field theory (AQFT), which we review here.
+  quantum field theory (AQFT), which we review here.
 
   First, we say that a local quantum theory $\mathcal{T}$ on spacetime manifold $M$
   assigns an operator algebra $\mA$ to regions of spacetime $R\in M$. In the DHR
@@ -1293,7 +1298,7 @@ we have a charge operator $V_q$ for each region $V_{q,\alpha}$, $\alpha=1,\cdots
   automatically mean that the theory is invalid.
 
   \subsubsection{0-form Rep($G$) symmetry}
-  \label{sec:repg} In continuum quantum field theory, a straightforward construction
+  \label{sec:repgcont} In continuum quantum field theory, a straightforward construction
   of 0-form non-invertible symmetry comes from gauging an invertible 0-form symmetry
   with finite, non-Abelian group $G$ in 1+1d
   \cite{bhardwaj2018gaugingfinitesymmetries}. The resulting gauged theory will contain
@@ -1903,12 +1908,192 @@ To our knowledge, there are no explicit continuum operator algebraic constructio
 
   Note that we can always find a conditional expectation by passing to the WHA,
   although uniqueness is an issue
+
+Going beyond Rep($G$) and 2d CFT $\to $non commutative fusion categories, captured by anyon chain
+  
   \color{black}
 
   \[
   \]
   \pagebreak
   \appendix
+
+\section{Mathematical structure in the group case}
+
+\subsection{Groups and their duals}
+
+Consider a locally compact group $G$ and its regular representation $L^2(G)$ which is a complex Hilbert space with the inner product
+\begin{eqnarray}
+    \braket{f_1|f_2}=\int d\mu_g f_1^*(g) f_2(g).
+\end{eqnarray}
+We will be primarily concerned with finite groups of order $|G|$. Consider the set of operators that act on $L^2(G)$ on the left and the right:
+\begin{eqnarray}
+    U_h\ket{g}=\ket{h g}, \qquad U'_h\ket{g}=\ket{g h^{-1}}=\sum_{g\in G}\ket{g}\bra{g h}
+\end{eqnarray}
+we can write them as
+\begin{eqnarray}
+U_h=\sum_{g\in G}\ket{h g}\bra{g},\qquad U'_h=\sum_{g\in G}\ket{g h^{-1}}\bra{g}\ .
+\end{eqnarray}
+We can check explicitly that they commute
+\begin{eqnarray}
+    U_{h_1}U'_{h_2}=\sum_{g\in G}\ket{h_1 g h_2^{-1}}\bra{g}=U'_{h_2}U_{h_1}\ .
+\end{eqnarray}
+The sets $\{U_h\}$ and $\{U'_h\}$ generate commuting representation of the group $G$ on $L^2(G)$. 
+The von Neumann algebra generated by $\{U_h\}$ is 
+\begin{align}
+    &\mathcal{L}(G)=\{U_g\}''\subset B(L^2(G))
+\end{align}
+and its commutant is 
+\begin{align}
+    &(\mathcal{L}(G))'=\{U'_g\}''
+\end{align}
+This is the left/right representation duality.
+For finite $G$, we have matrix algebras, therefore we have the decomposition
+\begin{align}
+    L^2(G)=\oplus_{r\in\hat{G}} \mathcal{H}_r\otimes \mathcal{H}'_r
+\end{align}
+with $r$ elements of the {\it dual group} $\hat{G}$, and $\mathcal{H}'_r$ is the multiplicity space \footnote{Note that a dual group $\hat{G}$ is a group only if $G$ is Abelian.}. Elements of the group algebra $\mathcal{L}(G)$ are $\sum_h f_h U_h$ and we have
+\begin{align}
+    &\mathcal{L}(G)=\oplus_r \mathcal{L}^r(G)\otimes 1'_r\nn\\
+    &\mathcal{L}'(G)=\oplus_r 1_r\otimes (\mathcal{L}(G)')^{r}
+\end{align}
+where $\mathcal{L}(G)^r$ is an irreducible representation labeled by $r$. The multiplication operation in $\mathcal{L}(G)$ is left convolution
+\begin{align}
+    &\sum_{h,g} f_1(h) f_2(g) U_h U_g=\sum_{h,g} f_1(h) f_2(g) U_{h g}=\sum_h (f_1*f_2)(h) U_h\nn\\
+    &(f_1*f_2)(h)=\sum_g f_1(h g^{-1})f_2(g)
+\end{align}
+whereas multiplication in $\mathcal{L}(G)'$ is right convolution. 
+The conditional expectation $\mathcal{E}=\frac{1}{|G|}\sum_{g\in G} U_g(\cdot ) U_g^\dagger$ projects $\mathcal{E}:B(L^2(G))\to \mathcal{L}(G)$. Applied to the operators in $\mathcal{L}(G)'$ it gives a state on this subalgebra which is called the {\it Plancherel measure}
+\begin{align}
+    \mathcal{E}(X')=\sum_r \frac{d_r}{|G|}\text{Tr}_{\mH'_r}(X')
+\end{align}
+
+
+\subsection{GNS quantization and Hom spaces}
+
+We can the Plancherel measure as a state of $\mathcal{L}(G)'$ to perform the GNS quantization to obtain a new basis for $L^2(G)$ given by $\ket{r,i,j}$.
+\begin{align}
+    &1'\to \sum_r \sqrt{\frac{d_r}{|G|}} \ket{r; ii}\nn\\
+    &(U'_g)^r\to \sum_r \sqrt{\frac{d_r}{|G|}} U^r_{ij}(g)\ket{r; ij}
+\end{align}
+Modular conjugation acts as $J\mathcal{L}(G)J=\mathcal{L}(G)'$. 
+The change of basis of $L^2(G)$ from $\ket{g}$ to $\ket{r;ij}$ is given by non-Abelian Fourier transform
+\begin{align}
+    \ket{g}\to \sum_{r;ij}\sqrt{\frac{d_r}{|G|}}U^r_{ij}(g)\ket{r;ij}
+\end{align}
+
+The GNS representation builds a map from the algebra to a linear vector space $\sum_g f(g) U_g\to \ket{f}$ through $U_g\to \ket{g}$. Under this map, the multiplication the algebra goes to an operation that takes as input two vectors $\ket{f_1}$ and $\ket{f_2}$ and outputs another vector that is the left (or right) convolution $\ket{f_1*f_2}$. Abstractly this means that the GNS quantization $Hom(L^2(G),L^2(G))\to L^2(G)$ which in the language above can be viewed as a map $L^2(G)\otimes L^2(G)\to L^2(G)$.
+
+In the GNS Hilbert space, convolution has become fusion
+\begin{align}
+    \ket{g_1}*\ket{g_2}=\ket{g_1g_2}
+\end{align}
+In the Fourier basis, we have
+\begin{align}
+    &(\mH_r\otimes V'_r)\otimes (\mH_s\otimes \mH'_s)\to \oplus_t N^t_{rs}\mH_t\otimes \mH'_t\nn\\
+    &\mH_r\otimes \mH_s=\oplus_t N^t_{rs}\mH_t
+\end{align}
+In the Fourier-transformed (representation) basis, the convolution product on \(L^2(G)\) is no longer diagonal but instead encodes the tensor product decomposition of representations. Explicitly, under
+\begin{align}
+L^2(G) \cong \bigoplus_{r \in \hat G} \mH_r \otimes \mH_r^* \,,
+\end{align}
+the multiplication map
+\begin{align}
+L^2(G) \otimes L^2(G) \to L^2(G)
+\end{align}
+is governed by Clebsch--Gordan intertwiners
+\begin{align}
+C^{t,\alpha}_{rs} : \mH_r \otimes \mH_s \to \mH_t \,,
+\end{align}
+implementing the decomposition
+\begin{align}
+\mH_r \otimes \mH_s \cong \bigoplus_t N_{rs}^t \, \mH_t \,.
+\end{align}
+Thus, the algebra structure of \(\mathcal{L}(G)\) is equivalent to the fusion rules of representations, with Clebsch--Gordan coefficients providing the structure constants in the representation basis.
+
+\subsection{Coaction and crossed products}
+
+The discussion above shows that the group algebra \(\mathcal{L}(G)\) acts on \(L^2(G)\) by left convolution, while its commutant \(\mathcal{L}(G)'\) acts by right convolution. This left-right structure can be reformulated in a way that is more flexible and admits generalizations, namely in terms of \emph{coactions} and \emph{crossed products}.
+
+% In the representation basis, the coaction becomes nontrivial and is governed by representation theory: it decomposes according to irreducible sectors and their intertwiners. In this sense, the coaction is the dual formulation of the group action, and it is the natural language when generalizing from groups to more abstract symmetry structures.
+
+\paragraph{Crossed product.}
+Given an action (or coaction) of a group on an algebra, one can construct a larger algebra that combines both the original observables and the symmetry operators. This construction is called the \emph{crossed product}.
+
+The crossed product of trivial algebra $\mathcal{C}$ with $G$ is $L(\mathcal{G})$:
+\begin{align}
+    \mathcal{L}(G)=\mathbb{C}\rtimes G
+\end{align}
+We would like to enlarge further $\mathcal{L}(G)$ by the co-action (Fourier transform operation) to obtain the entire $B(L^2(G))$. In the case of an Abelian group, the irreducible representations are one-dimensional, and we have the decomposition:
+\begin{align}
+    L^2(G)=\oplus_q \mH_q
+\end{align}
+Each $U^r_g$ is a representation of the group. The dual group is also a group $\hat{G}$, and it acts on $\mathcal{L}(G)$ by intertwing different representations:
+\begin{align}
+    \hat{U}_{q_1}U^{q_2}_g=U^{q_1+q_2}_g \hat{U}_{q_1}
+\end{align}
+
+\paragraph{Coaction.} For non-Abelian groups, the aaction $r\in\hat{G}: \mathcal{L}(G)\to \mathcal{L}(G)$ does not makes sense because there is no multiplication. Instead, we define the coaction. Instead of thinking of the group as acting on \(L^2(G)\), it is often useful to think of the Hilbert space as carrying a \emph{coaction} of the group algebra. Concretely, the decomposition
+\begin{align}
+L^2(G) \cong \bigoplus_{r \in \hat G} \mH_r \otimes \mH_r^*
+\end{align}
+can be interpreted as follows: the first factor \(\mH_r\) transforms under the representation \(r\), while the second factor \(\mH_r^*\) keeps track of how this representation is embedded in the regular representation.
+
+The action of $\mathcal{L}(G)$ can be viewed as 
+\begin{align}
+    U_h=\sum_g\ket{h g}\bra{g}\to  \sum_g \ket{g}\otimes \ket{h g}
+\end{align}
+This structure defines a map
+\begin{align}
+\delta : L^2(G) \to L^2(G) \otimes \mathcal{L}(G)
+\end{align}
+which encodes the group action in a ``dual'' form. In the group basis, this coaction takes the simple form
+\begin{align}
+\delta(\ket{g}) = \ket{g} \otimes U_g \,.
+\end{align}
+
+
+\subsection{Example of $\mathbb{Z}_2$}
+
+For $G=\mathbb{Z}_2$, we have $L^2(G)=\mathbb{C}_2$ spanned by $\ket{e}=\ket{0}$ and $\ket{g}=\ket{1}$. The left action is given by $\{I,X\}$ with the Pauli X-operator: $X\ket{e}=\ket{g}$. For $\mathbb{Z}_2$, the left and right group actions are the same $U'_g=X=U_g$, and $\mathcal{L}'(G)=\mathcal{L}(G)$ which is the subalgebra generated by $\{\mathbb{I},X\}\subset B(\mathbb{C}_2)$:
+\begin{align}
+    c_1 \ket{+}\bra{+}+c_2\ket{-}\bra{-}\in \mathcal{L}(G)
+\end{align}
+The Hilbert space decomposes as
+\begin{align}
+    L^2(\mathbb{Z}_2)=\mathcal{H}_+\oplus \mathcal{H}_-
+\end{align}
+The plancherel measure is the uniform measure $(1/2,1/2)$ on this two subspaces, and the Fourier transform becomes
+\begin{align}
+    &\ket{0}\to \frac{1}{\sqrt{2}}(\ket{0}+\ket{1})=\ket{+}\nn\\
+    &\ket{1}\to \frac{1}{\sqrt{2}}(\ket{0}-\ket{1})=\ket{-}
+\end{align}
+
+\subsection{Quantum double model}
+
+\section{Group action on von Neumann algebras, crossed product and inclusions}
+
+To generalize the discussion above to the case the group acts on a von Neumann algebra $\mathcal{A}$:
+\begin{align}
+    \alpha:G\to \text{Aut}(\mA)
+\end{align}
+The group action is
+\begin{align}
+    \rho_\alpha:\mathcal{L}(G)\to End(\mA)
+\end{align}
+that we can think of as
+\begin{align}
+    \mathcal{L}(G)\otimes \mA\to \mA
+\end{align}
+and the coaction is
+\begin{align}
+    \Gamma:\mA\to \mA\otimes L^\infty(G)
+\end{align}
+
+
+Then, instead of $L^1(G)\simeq \mathbb{C}(G)$, we will consider $\mA\rtimes G$.
+
+\section{General inclusion of depth $2$}
 
   \section{Lattice Krammers Wannier Symmetry}
   \label{sec:LatticeKW}
@@ -1934,6 +2119,8 @@ To our knowledge, there are no explicit continuum operator algebraic constructio
   multi-valued issue
   \color{black}
   .
+
+  \SA{I am a bit confused as to the choices in the setup - if we are changing the algebras and maps from the standard literature so that it is a morphism, then shouldn't we also not consider periodic boundary conditions?  The periodic boundary conditions make the map ill defined as Sahand was pointing out.}
 
   % \color{green} and the unitary
   % \begin{eqnarray}
@@ -2125,7 +2312,6 @@ To our knowledge, there are no explicit continuum operator algebraic constructio
     \color{black}
     (a),\\
     &&\forall b\in \mB:\ \tilde{\pi}(b)=\sout{\mT\circ\iota^{-1}(b)}\
-
     \color{red}
     \mT\circ\iota_2(b)
     \color{black}
@@ -2187,7 +2373,7 @@ To our knowledge, there are no explicit continuum operator algebraic constructio
   says that any quantum operation can be represented on some enlarged Hilbert
   space by coupling to environmental degrees of freedom (ancilla qudits), unitary
   evolution of the entire system, and then tracing out the environment. We review
-  the Stinespring construction in Appendix \ref{sec:Stinespring}.
+  the Stinespring construction in Appendix \ref{sec:Stinespring}.  The Stinespring dilation of a map implies that it can be written in terms of Kraus operators.
 
   In this example, it is tempting to start with the property of complete
   positivity\footnote{$\mathrm{KW}$ is the composition of a projection and
@@ -2206,15 +2392,427 @@ To our knowledge, there are no explicit continuum operator algebraic constructio
   completely general, has a clear physical interpretation, and can be readily
   applied to continuum theories. 
 
-  For the example of Kramers-Wannier and other duality-type non-invertible symmetries on the lattice, the explicit representation of the quantum operation is understood\color{brown} cite Tachikawa\color{black}.  We would like to realize the quantum operation following the intuitive physical picture described above.  First we move to an enlarged Hilbert space where two defects, or domain walls, for the non-invertible symmetry are already present.  In terms of AQFT, this corresponds to a modified representation of the operator algebra.  Next, by the condition of transportability of endomorphisms, we are guaranteed that the movement of the defects can be implemented as unitaries acting on the Hilbert space.  One of the domain walls is moved to enclose the insertion of the operator, and then after the operator is inserted, it is unitarily moved back to the original position.  Finally, the Hilbert space is acted upon by a co-isometry that implements fusing the defects and tracing out any ancilla degrees of freedom.  
+  For the example of Kramers-Wannier and other duality-type non-invertible symmetries on the lattice, the explicit representation of the quantum operation is understood\color{brown} cite Sahand, Tachikawa\color{black}.  We would like to realize the quantum operation following the intuitive physical picture described above.  First we move to an enlarged Hilbert space where two defects, or domain walls, for the non-invertible symmetry are already present.  In terms of AQFT, this corresponds to a modified representation of the operator algebra.  Next, by the condition of transportability of endomorphisms, we are guaranteed that the movement of the defects can be implemented as unitaries acting on the Hilbert space.  One of the domain walls is moved to enclose the insertion of the operator, and then after the operator is inserted, it is unitarily moved back to the original position.  Finally, the Hilbert space is acted upon by a co-isometry that implements fusing the defects and tracing out any ancilla degrees of freedom.  
 
   \color{brown}add diagram \color{black}
 
-  On the lattice, the isometry for Kramers Wannier involves tensoring with an ancilla qubit in the state $\ket{0}$.  This initial state will lead to projecting out the $\mathbb{Z}_2$ odd sector of operators when the trace is taken in the last step.  Next, we use the unitary movement operator $R_{D,j} = U_j^{CZ}\otimes U_j^H$.
-  
-  
+  On the lattice, the isometry for Kramers Wannier involves tensoring with an ancilla qubit $a$ between site $L$ and $1$ in the state $\ket{0}_a$.  This initial state will lead to projecting out the $\mathbb{Z}_2$ odd sector of operators when the trace is taken in the last step.  Next, we use the unitary movement operator $R_{D,j} = U_j^{CZ}\otimes U_j^H$ to move the defect to the left of where we would like to insert the operator that the map acts on.  We then insert the operator and move the defect back with $R_{D,j}^\dagger$ before projecting the ancilla to the $\bra{0}_a$ state.
+
+
+Alternatively, we can use the convention of [Sahand, Shao, Seiberg]:
+
+
+\begin{align}
+    &\lambda^{L+1}_{D\otimes D} = H_{L+1}CZ_{L+1,1}\\
+    &(\lambda^{L+1}_{D\otimes D})^{-1} = CZ_{L+1,1}H_{L+1}\\
+    &U^j_D = CZ_{j+1,j}H_j\\
+    &(U^1_D)^\dagger = H_j CZ_{j+1,j}
+\end{align}
+
+  \begin{equation}
+    \Phi_{\text{KW}}(O_j) = \bra{0}_a((\lambda^{a}_{D\otimes D})U^{\text{KW}}_L...U^{\text{KW}}_2U^{\text{KW}}_1(O_j \otimes 1_a)(U_1^\text{KW})^\dagger(U_2^\text{KW})^\dagger...(U_L^\text{KW})^\dagger(\lambda^{a}_{D\otimes D})^{-1})\ket{0}_a
+\end{equation}
+
+
+
+
+
+
+\color{blue}
+Example calculation $\Phi(X_i)$ for $L=4$
+\begin{align}
+    &\Phi_{KW}(X_2) = \bra{0}_{L+1} \lambda^{L+1}_{D\otimes D} (U^1_D)(U^2_D) X_2 (U^2_D)^\dagger(U^1_D)^\dagger (\lambda^{L+1}_{D\otimes D})^{-1}\ket{0}_{L+1}\\
+   & = \bra{0}_{L+1} \lambda^{L+1}_{D\otimes D} (U^1_D)(U^2_D) X_2  (U^2_D)^\dagger(U^1_D) ^\dagger(\lambda^{L+1}_{D\otimes D})^{-1}\ket{0}_{L+1}\\
+   & = \bra{0}_{L+1} \lambda^{L+1}_{D\otimes D} (U^1_D) Z_1Z_2 (U^1_D)^\dagger (\lambda^{L+1}_{D\otimes D})^{-1}\ket{0}_{L+1}\\
+   & = Z_1Z_2  \braket{0|0}_{L+1} = Z_1Z_2
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{KWDomainWallFigure.png}
+    \caption{Domain wall approach to KW map}
+    \label{fig:placeholder}
+\end{figure}
+
+\color{black}
   
   One particularly elegant formulation of these quantum operations is ZX calculus \color{brown}add citations\color{black}.  
+
+The following properties of the UCP map are especially interesting to consider given their error correction interpretation:
+
+\begin{enumerate}
+    \item \textit{Faithfulness} - A UCP map is faithful iff. it maps positive elements of the algebra to positive elements, or equivalently $\Phi(a^*a) = 0 \Rightarrow a = 0$.
+    \item \textit{Injectivity} - A UCP map is injective if as a superoperator $\Phi: \mA \to \mB$ acting as a map between algebras $\mA$ and $\mB$ it is injective.
+    \item \textit{Extremality} - A UCP map is extremal iff. $\{K_i ^\dagger K_j \}$ is linearly independent as a set, where $K_i$ are the Kraus operators of the map. \color{brown} extremal in the space of CP maps vs UCP maps \color{black}
+    \item \textit{Complementary map} - The complement of a UCP map is defined with respect to the ancillary Hilbert space $\mathcal{H}_a$.  Given the Stinespring dilation of the UCP map $\Phi(O_j) = V^\dagger(O_j\otimes 1_a)V$, we define the complimentary map acting on the ancilla space to be $\Phi^C(O_a) = V^\dagger(1_{\{j\}}\otimes O_a)V$, where $\{j\}$ denotes the set of physical indices and $a$ the ancilla index.
+\end{enumerate}
+
+If we consider the quantum channel to be a noise map, we have the following interpretations in error correction:
+
+\begin{enumerate}
+    \item \textit{Faithfulness} - A faithful noise map has the property that its dual map acting on the space of density matrices is state-preserving.  This is a crucial property to discuss the map as a 
+    \item \textit{Injectivity} - If a noise map is injective, then its entire image is recoverable by some other map.  However, there is no guarantee that the inverse map has a physical interpretation as a recovery map given that it may not be completely positive or unital. 
+    \item \textit{Extremality} - Extremality of a CP map can also be understood as a condition for the map to be indecomposable in terms of other quantum operations.  
+    \item \textit{Complementary map} - The complementary map of a noise map encodes how it acts on the environment. \color{brown} elaborate - Stinespring is non-unique, so complementary map is not unique? \color{black}
+\end{enumerate}
+
+The KW UCP is clearly non-injective due to its kernel. However it is faithful since the $Z_i$ operators in its kernel have negative eigenvalues and are therefore not positive.   As argued by \color{brown}cite Sahand upcoming work \color{black}, a condition on UCP maps corresponding to non-invertible symmetries is that they are extremal in the space of CP maps.  This is the familiar notion from the categorical perspective that symmetry defects correspond to simple objects of the fusion category.
+
+
+\color{blue}
+Proof of extremality from Sahand's talk:
+
+Starting with $KW = tKW' + (1-t)KW''$, want to show that $KW' = KW'' = KW$. We can see the extremality directly from Choi's theorem. Namely, we have that the multiplicative domain (MD) of KW is the intersection of the MD of KW' and KW'' with the subalgebra where $KW'(a) = KW''(a) = KW(a)$. We know that MD of KW is $\mathbb{Z}_2$ even operators, so they agree on all  $\mathbb{Z}_2$ even operators.  Then it remains to show that they agree on the generator of $\mathbb{Z}_2$ odd operators:
+
+\begin{align}
+    &X_{-n}...X_n Z_0 = -Z_0 X_{-n}...X_n\\
+    & KW'(X_{-n}...X_n) KW'(Z_0) = -KW'(Z_0) KW(X_{-n}...X_n)\\
+    & Z_{-n-1}Z_nKW'(Z_0) = -KW'(Z_0) Z_{-n-1}Z_n
+\end{align}
+
+Pick $n$ sufficiently large such that $KW'(Z_0)$ and $Z_{-n-1}Z_n$ commute.  Then $KW'(Z_0) = 0$ and they agree on $\mathbb{Z}_2$ odd operators as well.
+
+\color{black}
+
+We calculate the complementary map following its definition
+
+\begin{equation}
+    \Phi^C_{\text{KW}}(O_a) = \bra{0}_a((\lambda^{a}_{D\otimes D})U^{\text{KW}}_L...U^{\text{KW}}_2U^{\text{KW}}_1(1_{\{j\}} \otimes O_a)(U_1^\text{KW})^\dagger(U_2^\text{KW})^\dagger...(U_L^\text{KW})^\dagger(\lambda^{a}_{D\otimes D})^{-1})\ket{0}_a
+\end{equation}
+
+
+The only terms that contribute act on the site $a$, which are $U^{\text{KW}}_L$, $\lambda^{a}_{D\otimes D}$, and their inverses. Then it remains to find the action of $(\lambda^{a}_{D\otimes D})U^{\text{KW}}_LO_a(U_L^\text{KW})^\dagger(\lambda^{a}_{D\otimes D})^{-1}$ for the given $O_a$  We can then find the $(\bra{0}M\ket{0})_a$ matrix element.  Using the actions on local operators we find that the complementary map acts similarly to the original KW UCP map.  However, the trading of information between the environment and system is manifest in the action on $X_a$, which gets sent to a pair of $Z_1Z_L$ in the physical space:
+
+\begin{eqnarray}
+&\Phi^C_{\text{KW}}(1_a) = 1_{\{j\}}\\
+&\Phi^C_{\text{KW}}(Z_a) = 0\\
+&\Phi^C_{\text{KW}}(X_a) = Z_1Z_L
+\end{eqnarray}
+
+
+
+
+
+
+
+
+
+\section{(1+1)d Lattice Rep($D_8$)}
+
+Here we perform the same analysis of the UCP channel as above for the case of a Rep($D_8$) fusion ring symmetry.  In contrast to KW however, there is no mixing with spacetime translation.  The symmetry algebra can be lifted to the structure of a fusion category and has been studied in detail in Refs.~\cite{shao2025additivityhaagdualitynoninvertible, seifnashri2025gaugingnisonthelattice}.  Additionally, the lattice provides a setting to explore explicit forms of the UCP channels implementing Rep($G$) symmetry.  As we explain in Sec.\ref{sec:repgcont} for the continuum analog, we can arrive at this symmetry algebra by gauging .  We review this briefly below, which is covered in detail in Ref.~\cite{seifnashri2025gaugingnisonthelattice} from the generalized symmetry point of view.
+
+\color{brown}
+
+
+
+\color{black}
+
+
+The group $D_8$ is the dihedral group of order 8 whose generators correspond to symmetries of the square.  The presentation is given by
+
+\begin{equation}
+    <s,r|s^4 = r^2 = e, rsr^{-1} = s^{-1}>
+\end{equation}
+
+where $s$ is a $\pi/2$ rotation and $r$ is a reflection about the vertical axis.  It is clear from the presentation above that $D_8 \cong \mathbb{Z}_2 \ltimes \mathbb{Z}_4$.  Then we can alternatively view $D_8$ as a subgroup of $O(2) = \mathbb{Z}_2 \ltimes U(1)$ for $\theta = \pi/2$.  A useful concrete example of a theory with $O(2)$ symmetry is the critical XXZ model which flows to the $c=1$ compact boson in the continuum limit.
+
+\color{brown}
+Finish XXZ presentation
+
+Possible to fully discuss gauging XXZ in terms of crossed product?
+
+Irreps. of $D_8$
+\color{black}
+
+
+
+As with the KW example, we start with an algebra of bounded operators $\text{Mat}(2^L, \mathbb{C})$ acting on a spin chain of even length $L$.  
+
+There are two superoperators for each of the one dimensional irreps. of $D_8$, denoted by $\Phi_{\eta_e}$ and $\Phi_{\eta_o}$.  They implement the invertible automorphisms on the symmetric subalgebra.  We also have the non-invertible UCP map $\Phi_{D_8}$ associated to the two dimensional irrep.  The fusion ring of Rep($D_8$) gives the composition rules
+
+
+\begin{equation}
+\begin{aligned}
+    &\Phi_{\eta_{e/o}} \circ \Phi_{\eta_{e/o}} = 1\\
+    &\Phi_{D_8} \circ \Phi_{\eta_{e/o}} = \Phi_{\eta_{e/o}} \circ
+    \Phi_{D_8} = \Phi_{D_8}\\
+    &\Phi_{D_8} \circ \Phi_{D_8} = 1 + \Phi_{\eta_{o}} + \Phi_{\eta_{e}} + \Phi_{\eta}
+\end{aligned}
+\end{equation}
+
+
+
+The action of these maps are given by
+
+
+
+\begin{equation}
+\begin{aligned}
+\Phi_{D_8}(Z_{i-1}Z_{i+1}) &= Z_{i-1}X_iZ_{i+1}, \\
+\Phi_{D_8}(Z_i) &= 0, \\
+\Phi_{D_8}(X_i) &= X_i.\\
+\Phi_{\eta_{e/o}}(Z_{i_{e/o}}) &= -Z_{i_{e/o}}
+\end{aligned}
+\end{equation}
+
+
+\color{brown}
+Action on a pair of $Z_iZ_{i+1}$
+\color{black}
+
+The charge neutral operators are generated by the set
+
+\begin{equation}
+    \{X_i, Z_{i-1}(1+X_i)Z_{i+1},Z_{i-2}(1+X_{i-1}X_{i+1})Z_{i+2},...\}
+\end{equation}
+
+via usual matrix multiplication.
+
+The UCP map $\Phi_{D_8}$ can be written in terms of quantum circuit elements following the same principle of moving to an enlarged defect Hilbert space with an isometry, conjugating the local operator it acts on with unitary defect movement operators, and then returning to the original Hilbert space with the co-isometry.  Each of these elements were described in~\cite{seifnashri2025gaugingnisonthelattice}, here we write down the full map explicitly.
+
+The defect creation homomorphism with a \(D\) defect at the link
+\((J,J+1)\) is the product
+\[
+    U_{\leq J}^{D}
+    =
+    \lambda_D^J\lambda_D^{J-1}\lambda_D^{J-2}\cdots ,
+    \qquad
+    U_{\leq J}^D:\mA\to
+    \mA^{(J,J+1)}_D
+    =
+    \mA\otimes \operatorname{End}(\mathbb C^2_a).
+\]
+The homomorphism can be expressed as a Matrix Product Operator (MPO) that acts on both the original physical Hilbert space and a bond or virtual space:
+\begin{equation}
+    \lambda_D^j
+    =
+    U_D^j
+    =
+    \operatorname{CNOT}_{a,j}H_a
+    =
+    \frac{1}{\sqrt2}
+    \begin{pmatrix}
+        1 & 1\\
+        X_j & -X_j
+    \end{pmatrix}_{a}.
+\end{equation}
+Here the matrix indices act on the defect ancilla qubit \(a\), while the entries
+act on the physical spin at site \(j\).  Conjugation by \(\lambda_D^j\)
+acts on local Pauli operators as
+\begin{equation}
+\begin{aligned}
+    X_j &\to X_j,\\
+    Z_j &\to Z_j Z_a,\\
+    X_a &\to Z_a,\\
+    Z_a &\to X_a X_j .
+\end{aligned}
+\end{equation}
+
+
+The enlarging isometry $V: \mathcal H\longrightarrow
+    \mathcal H\otimes \mathbb C^2_{a_1}\otimes \mathbb C^2_{a_2}$ can be derived using the fusion operator
+\begin{equation}
+    m^1_{D_1\otimes D_2}
+    =
+    \bra{00}_{a_1a_2}+\bra{11}_{a_1a_2}.
+\end{equation}
+
+The isometry then naturally corresponds to inserting two defects $D_1D_2$ and acts as
+\begin{equation}
+     V\ket{\psi}
+    =
+    \ket{\psi}\otimes  \left(\ket{00}_{a_1a_2}+\ket{11}_{a_1a_2}\right).
+\end{equation}
+ 
+ We will move only the
+\(D_1\) defect around the operator insertion, while \(D_2\) remains
+fixed far away.
+
+
+\begin{tikzpicture}[
+    x=1.25cm,
+    y=1.05cm,
+    site/.style={
+        circle,
+        draw,
+        fill=white,
+        minimum size=5mm,
+        inner sep=0pt
+    },
+    mpo/.style={
+        rectangle,
+        draw,
+        rounded corners=2pt,
+        fill=blue!8,
+        minimum width=1.05cm,
+        minimum height=0.65cm,
+        inner sep=2pt
+    },
+    phys/.style={thick},
+    virt/.style={thick, red!75!black},
+    axis/.style={->, thick},
+    every node/.style={font=\small}
+]
+
+% Axes: horizontal = space, vertical = time
+\draw[axis] (-0.8,-0.8) -- (6.6,-0.8) node[right] {space};
+\draw[axis] (-0.8,-0.8) -- (-0.8,4.0) node[above] {time};
+
+% Physical worldlines and site labels
+\foreach \x/\lab in {
+    0/{j-2},
+    1/{j-1},
+    2/{j},
+    3/{j+1},
+    4/{j+2},
+    5/{j+3}
+} {
+    \draw[phys] (\x,0) -- (\x,3.35);
+    \node[site] at (\x,0) {};
+    \node[below] at (\x,-0.18) {$\lab$};
+}
+
+% Local MPO tensors
+\node[mpo] (Ujm2) at (0,0.55) {$U_{j-2}^{D}$};
+\node[mpo] (Ujm1) at (1,1.10) {$U_{j-1}^{D}$};
+\node[mpo] (Uj)   at (2,1.65) {$U_{j}^{D}$};
+\node[mpo] (Ujp1) at (3,2.20) {$U_{j+1}^{D}$};
+\node[mpo] (Ujp2) at (4,2.75) {$U_{j+2}^{D}$};
+
+% Virtual / ancilla bond legs
+\draw[virt] (Ujm2.east) -- (Ujm1.west);
+\draw[virt] (Ujm1.east) -- (Uj.west);
+\draw[virt] (Uj.east)   -- (Ujp1.west);
+\draw[virt] (Ujp1.east) -- (Ujp2.west);
+
+% Dangling ancilla legs at the two defect endpoints
+\draw[virt] ($(Ujm2.west)+(-0.75,0)$) -- (Ujm2.west)
+    node[midway, above] {$a_1$};
+
+\draw[virt] (Ujp2.east) -- ($(Ujp2.east)+(0.75,0)$)
+    node[midway, above] {$a_1$};
+
+% Mark physical action on each site
+\foreach \x/\y in {
+    0/0.55,
+    1/1.10,
+    2/1.65,
+    3/2.20,
+    4/2.75
+} {
+    \fill[black] (\x,\y) circle (1.2pt);
+}
+
+% Defect endpoint labels
+\node[red!75!black, above left=2pt and 0pt of Ujm2] {$D_1$};
+\node[red!75!black, above right=2pt and 0pt of Ujp2] {$D_1$};
+
+
+
+\end{tikzpicture}
+
+
+The movement operator coincides with the unitary MPO $U_i^D$.  Finally, the action of the co-isometry $V^\dagger_{j,k}: \mathcal{H}_{D \bar{D}} \to \mathcal{H}$ (called the fusion operator in~\cite{seifnashri2025gaugingnisonthelattice}) is given by 
+
+\begin{equation}
+V^\dagger_{j,k}(\ket{\psi}_{\{j\}\otimes(a_1a_2)}) =  (\bra{00}_{a_1a_2} + \bra{11}_{a_1a_2})\ket{\psi}_{\{j\}\otimes(a_1a_2)}
+\end{equation}
+.
+
+Therefore the full UCP map $\Phi_{D_8}$ can be written as
+
+\begin{equation}
+    \Phi_{D_8}(O_j) = (\bra{00}_{a_1,a_2} + \bra{11}_{a_1,a_2}) U_1 ... U_{j-1} U_j O_j (U_j)^\dagger (U_{j-1})^\dagger ... (U_{1})^\dagger (\ket{00}_{a_1,a_2} + \ket{11}_{a_1,a_2})
+\end{equation}
+
+
+
+
+
+\begin{align}
+    \Phi_{D_8}(Z_{i-1}Z_{i+1}) = (\bra{00}_{j_{E_1},j_{E_2}} + \bra{11}_{j_{E_1},j_{E_2}})\Big(\begin{pmatrix}
+        1 \ 1\\ -X_{i-1}\ X_{i-1}
+    \end{pmatrix}\begin{pmatrix}
+        1 \ 1\\ -X_i\ X_i
+    \end{pmatrix}\begin{pmatrix}
+        1 \ 1\\ -X_{i+1}\ X_{i+1}
+    \end{pmatrix}\\
+     \times \begin{pmatrix}
+        Z_{i-1}Z_{i+1} \ 0\\ -0\ Z_{i-1}Z_{i+1}
+    \end{pmatrix}\begin{pmatrix}
+        1 \ 1\\ -X_{i+1}\ X_{i+1}
+    \end{pmatrix}^\dagger\begin{pmatrix}
+        1 \ 1\\ -X_i\ X_i
+    \end{pmatrix}^\dagger\begin{pmatrix}
+        1 \ 1\\ -X_{i-1}\ X_{i-1}
+    \end{pmatrix}^\dagger\Big)(\ket{00}_{j_{E_1},j_{E_2}} + \ket{11}_{j_{E_1},j_{E_2}})
+\end{align}
+
+We can assume that the right defect in the pair is sufficiently far away so that its matrix element $\bra{+}(U^D_{j_{E_2}})\ket{+}$ is just $1$.  The actions  $\Phi_{D_8}(Z_{i-1}Z_{i+1})$ and  $\Phi_{D_8}(X_i)$ are simple to verify given the action of $U^D_i$ on local operators. 
+
+
+\color{blue}
+Example: $Z_{i-1}Z_{i+1}$
+
+Let \(\alpha_j(O)=\lambda_D^jO(\lambda_D^j)^\dagger\).  For the
+operator \(Z_{i-1}Z_{i+1}\), the moving \(D\) defect must cross the
+three sites \(i-1,i,i+1\).  Therefore
+\[
+    \Phi_D(Z_{i-1}Z_{i+1})
+    =
+    \bra{\Omega_D}_{a_1a_2}
+    \alpha_{i+1}\alpha_i\alpha_{i-1}
+    (Z_{i-1}Z_{i+1})
+    \ket{\Omega_D}_{a_1a_2}.
+\]
+Using
+\[
+    Z_j\mapsto Z_jZ_{a_1},\qquad
+    Z_{a_1}\mapsto X_{a_1}X_j,\qquad
+    X_{a_1}\mapsto Z_{a_1},
+\]
+we find
+\[
+\begin{aligned}
+    Z_{i-1}Z_{i+1}
+    &\xmapsto{\lambda_D^{i-1}}
+    Z_{i-1}Z_{a_1}Z_{i+1}  \\
+    &\xmapsto{\lambda_D^{i}}
+    Z_{i-1}X_{a_1}X_iZ_{i+1} \\
+    &\xmapsto{\lambda_D^{i+1}}
+    Z_{i-1}Z_{a_1}X_iZ_{i+1}Z_{a_1}
+    =
+    Z_{i-1}X_iZ_{i+1}.
+\end{aligned}
+\]
+Since the final expression is independent of the defect qubits,
+\[
+    \Phi_D(Z_{i-1}Z_{i+1})
+    =
+    Z_{i-1}X_iZ_{i+1}.
+\]
+\color{black}
+
+
+For $\Phi_{D_8}(Z_i)$, the action of the movement operators  $U^D_iZ_i(U^D_i)^\dagger = Z_iX_{E_1}$.  Applying the co-isometry gives
+
+\[Z_i \otimes \big( (\bra{0}_{E_1} \bra{0}_{E_2}) X_{E_1} U^D_{E_2} (\ket{0}_{E_1} \ket{0}_{E_2}) + (\bra{1}_{E_1} \bra{1}_{E_2}) X_{E_1} U^D_{E_2} (\ket{1}_{E_1} \ket{1}_{E_2})\big)\]
+
+\[= (\bra{1}_{E_1} \bra{0}_{E_2}\ket{0}_{E_1} \ket{0}_{E_2} + (\bra{0}_{E_1} \bra{0}_{E_2}\ket{1}_{E_1} \ket{1}_{E_2}  = 0\]
+
+as desired.
+
+
+The UCP map is again faithful since the kernel is only non positive operators and non-injective since it is non-invertible. 
+
+\color{brown}
+According to Sahand, all UCP maps that are symmetries should be pure which means they are extremal in terms of Kraus operators
+\color{black}
+
+\section{Rep($G$) with Multiplicity}
+
+Rep($A_8$)
+
 
 
   \section{Stinespring Dilation Theorem}
@@ -2243,15 +2841,15 @@ To our knowledge, there are no explicit continuum operator algebraic constructio
   space, and then returning to the original Hilbert space. Note that the theorem
   is a two-way implication.
 
-  In the original proof, the Hilbert space $\mathcal{K}$ is constructed starting
+ The Hilbert space $\mathcal{K}$ is constructed starting
   by taking an algebraic tensor product $\mathcal{A}\otimes \mathcal{H}$ of the algebra
   with the target Hilbert space of the map. The resulting vector space is
   equipped with an inner product: For $\alpha = \sum_{i}a_{i}\otimes x_{i}, \;a_{i}
   \in \mathcal{A}, \; x_{i}\in \mathcal{H}$ and $\beta = \sum_{i}b_{i}\otimes x_{i}
   , \;b_{i}\in \mathcal{A}, \; y_{i}\in \mathcal{H}$,
-  \[
+\begin{equation}
     (\alpha, \beta) \equiv \sum_{i,j}(\Phi(b_{j}^{*}a_{i})x_{i}, y_{j})
-  \]
+\end{equation}
 
   We quotient out $\mathcal{A}\otimes \mathcal{H}$ by $\mathcal{I}$, the set of
   operators $\alpha$ where $(\alpha, \alpha) = 0$. The Hilbert space $\mathcal{K}$
@@ -2259,14 +2857,13 @@ To our knowledge, there are no explicit continuum operator algebraic constructio
   with the inner product $(\cdot\;,\;\cdot)$ defined above.
 
   The representation $\rho$ is naturally defined by the action
-  \[
+\begin{equation}
     \rho(a) \sum_{j}b_{j}\otimes x_{j}= \sum_{j}(ab_{j})\otimes x_{j}
-  \]
-
+\end{equation}
   Finally, the embedding isometry $V$ acts on $\mathcal{H}$ as
-  \[
+\begin{equation}
     Vx = 1 \otimes x + \mathcal{I}.
-  \]
+\end{equation}
 
   The Stinespring construction above is not necessarily \textit{minimal} - there
   could be a smaller auxillary Hilbert space such that the right hand side of Eq.~\ref{eq:stinespringtheoremapp}
@@ -2415,245 +3012,245 @@ To our knowledge, there are no explicit continuum operator algebraic constructio
   linking is interpreted as an error. The Rep($G$) conditional expectation can be
   considered a special case of the above derivation.
 
-  \section{Coulomb gas formalism and minimal models}
+  % \section{Coulomb gas formalism and minimal models}
 
-  \subsection{Free boson on a cylinder}
+  % \subsection{Free boson on a cylinder}
 
-  Take the Euclidean cylinder $\Sigma=\mathbb{R}_{\tau}\times S^{1}_{\sigma}$ with
-  $\sigma\sim\sigma+2\pi$. Introduce complex coordinates
-  \begin{equation}
-    w=\tau+i\sigma,\qquad \bar w=\tau-i\sigma,
-  \end{equation}
-  and the exponential map from cylinder to plane,
-  \begin{equation}
-    z=e^{w},\qquad \bar z=e^{\bar w}.
-  \end{equation}
-  Let $\varphi(w,\bar w)$ be a real scalar field. We choose the standard CFT
-  normalization
-  \begin{equation}
-    S_{0}[\varphi] =\frac{1}{8\pi}\int d\tau\,d\sigma\;(\partial_{\mu}\varphi )(\partial
-    ^{\mu}\varphi) =\frac{1}{2\pi}\int d^{2}w\;\partial\varphi\,\bar \partial\varphi
-    ,
-  \end{equation}
-  where $\partial=\partial_{w}$ and $\bar\partial=\partial_{\bar w}$. On the plane
-  this gives
-  \begin{equation}
-    \langle \varphi(z,\bar z)\,\varphi(0)\rangle=-2\log|z|^{2}, \qquad \langle \varphi
-    _{L}(z)\,\varphi_{L}(0)\rangle=-\log z,
-  \end{equation}
-  so that
-  \begin{equation}
-    \partial\varphi_{L}(z)\,\partial\varphi_{L}(w)\sim \frac{1}{(z-w)^{2}}.
-  \end{equation}
-  The chiral and nonchiral vertex operators are
-  \begin{equation}
-    V_{\alpha}(z)=:\!e^{i\alpha\varphi_L(z)}\!:, \qquad V_{\alpha}(z,\bar z)= :\!
-    e^{i\alpha\varphi(z,\bar z)}\!:,
-  \end{equation}
-  and without background charge one has $h(\alpha)=\alpha^{2}/2$ (and similarly
-  $\bar h$).
+  % Take the Euclidean cylinder $\Sigma=\mathbb{R}_{\tau}\times S^{1}_{\sigma}$ with
+  % $\sigma\sim\sigma+2\pi$. Introduce complex coordinates
+  % \begin{equation}
+  %   w=\tau+i\sigma,\qquad \bar w=\tau-i\sigma,
+  % \end{equation}
+  % and the exponential map from cylinder to plane,
+  % \begin{equation}
+  %   z=e^{w},\qquad \bar z=e^{\bar w}.
+  % \end{equation}
+  % Let $\varphi(w,\bar w)$ be a real scalar field. We choose the standard CFT
+  % normalization
+  % \begin{equation}
+  %   S_{0}[\varphi] =\frac{1}{8\pi}\int d\tau\,d\sigma\;(\partial_{\mu}\varphi )(\partial
+  %   ^{\mu}\varphi) =\frac{1}{2\pi}\int d^{2}w\;\partial\varphi\,\bar \partial\varphi
+  %   ,
+  % \end{equation}
+  % where $\partial=\partial_{w}$ and $\bar\partial=\partial_{\bar w}$. On the plane
+  % this gives
+  % \begin{equation}
+  %   \langle \varphi(z,\bar z)\,\varphi(0)\rangle=-2\log|z|^{2}, \qquad \langle \varphi
+  %   _{L}(z)\,\varphi_{L}(0)\rangle=-\log z,
+  % \end{equation}
+  % so that
+  % \begin{equation}
+  %   \partial\varphi_{L}(z)\,\partial\varphi_{L}(w)\sim \frac{1}{(z-w)^{2}}.
+  % \end{equation}
+  % The chiral and nonchiral vertex operators are
+  % \begin{equation}
+  %   V_{\alpha}(z)=:\!e^{i\alpha\varphi_L(z)}\!:, \qquad V_{\alpha}(z,\bar z)= :\!
+  %   e^{i\alpha\varphi(z,\bar z)}\!:,
+  % \end{equation}
+  % and without background charge one has $h(\alpha)=\alpha^{2}/2$ (and similarly
+  % $\bar h$).
 
-  \subsection{Background charge (Feigin--Fuchs boson) and $c<1$}
+  % \subsection{Background charge (Feigin--Fuchs boson) and $c<1$}
 
-  To obtain $c\neq 1$, introduce a background charge $Q$ by coupling $\varphi$ to
-  curvature:
-  \begin{equation}
-    S_{\text{FF}}[\varphi] =\frac{1}{8\pi}\int_{\Sigma}\sqrt{g}\,g^{ab}\partial_{a}
-    \varphi\,\partial_{b}\varphi +\frac{iQ}{8\pi}\int_{\Sigma}\sqrt{g}\,R \,\varphi
-    .
-  \end{equation}
-  On the cylinder $R=0$, so the local dynamics is free, but on the sphere/plane
-  the curvature term modifies conformal Ward identities and the neutrality
-  condition.
+  % To obtain $c\neq 1$, introduce a background charge $Q$ by coupling $\varphi$ to
+  % curvature:
+  % \begin{equation}
+  %   S_{\text{FF}}[\varphi] =\frac{1}{8\pi}\int_{\Sigma}\sqrt{g}\,g^{ab}\partial_{a}
+  %   \varphi\,\partial_{b}\varphi +\frac{iQ}{8\pi}\int_{\Sigma}\sqrt{g}\,R \,\varphi
+  %   .
+  % \end{equation}
+  % On the cylinder $R=0$, so the local dynamics is free, but on the sphere/plane
+  % the curvature term modifies conformal Ward identities and the neutrality
+  % condition.
 
-  The holomorphic stress tensor is improved to
-  \begin{equation}
-    T(z)= -\frac{1}{2}:(\partial\varphi_{L})^{2}:(z)+ iQ\,\partial^{2}\varphi_{L}
-    (z),
-  \end{equation}
-  and one finds the central charge
-  \begin{equation}
-    c = 1-12Q^{2}.
-  \end{equation}
-  With this $T$, the chiral vertex $V_{\alpha}(z)$ has conformal weight
-  \begin{equation}
-    h(\alpha)=\frac{1}{2}\,\alpha(\alpha-2Q).
-  \end{equation}
+  % The holomorphic stress tensor is improved to
+  % \begin{equation}
+  %   T(z)= -\frac{1}{2}:(\partial\varphi_{L})^{2}:(z)+ iQ\,\partial^{2}\varphi_{L}
+  %   (z),
+  % \end{equation}
+  % and one finds the central charge
+  % \begin{equation}
+  %   c = 1-12Q^{2}.
+  % \end{equation}
+  % With this $T$, the chiral vertex $V_{\alpha}(z)$ has conformal weight
+  % \begin{equation}
+  %   h(\alpha)=\frac{1}{2}\,\alpha(\alpha-2Q).
+  % \end{equation}
 
-  \subsection{The parameters $\alpha_{\pm}$ and degenerate charges
-  $\alpha_{r,s}$}
+  % \subsection{The parameters $\alpha_{\pm}$ and degenerate charges
+  % $\alpha_{r,s}$}
 
-  Introduce $\alpha_{\pm}$ by
-  \begin{equation}
-    Q=\alpha_{+}+ \alpha_{-}, \qquad \alpha_{+}\alpha_{-}= -1,
-  \end{equation}
-  in a normalization where the screening operators below have $h=1$. Define the
-  ``Kac momenta''
-  \begin{equation}
-    \alpha_{r,s}=\frac{1}{2}\Big((1-r)\alpha_{+}+ (1-s)\alpha_{-}\Big), \qquad r
-    ,s\in\mathbb{Z}_{>0}.
-  \end{equation}
-  The corresponding highest weights are
-  \begin{equation}
-    h_{r,s}=h(\alpha_{r,s}) = \frac{\big(r\alpha_{+}+ s\alpha_{-}\big)^{2}- (\alpha_{+}+
-    \alpha_{-})^{2}}{4}.
-  \end{equation}
-  These $h_{r,s}$ correspond to degenerate Virasoro representations with a null
-  vector at level $rs$.
+  % Introduce $\alpha_{\pm}$ by
+  % \begin{equation}
+  %   Q=\alpha_{+}+ \alpha_{-}, \qquad \alpha_{+}\alpha_{-}= -1,
+  % \end{equation}
+  % in a normalization where the screening operators below have $h=1$. Define the
+  % ``Kac momenta''
+  % \begin{equation}
+  %   \alpha_{r,s}=\frac{1}{2}\Big((1-r)\alpha_{+}+ (1-s)\alpha_{-}\Big), \qquad r
+  %   ,s\in\mathbb{Z}_{>0}.
+  % \end{equation}
+  % The corresponding highest weights are
+  % \begin{equation}
+  %   h_{r,s}=h(\alpha_{r,s}) = \frac{\big(r\alpha_{+}+ s\alpha_{-}\big)^{2}- (\alpha_{+}+
+  %   \alpha_{-})^{2}}{4}.
+  % \end{equation}
+  % These $h_{r,s}$ correspond to degenerate Virasoro representations with a null
+  % vector at level $rs$.
 
-  \subsection{Screenings: Virasoro-invariant integrals}
+  % \subsection{Screenings: Virasoro-invariant integrals}
 
-  Define the screening fields
-  \begin{equation}
-    S_{+}(z)=:\!e^{i\alpha_+\varphi_L(z)}\!:, \qquad S_{-}(z)=:\!e^{i\alpha_-\varphi_L(z)}
-    \!:.
-  \end{equation}
-  By construction,
-  \begin{equation}
-    h(\alpha_{\pm})=1,
-  \end{equation}
-  so the screening charges
-  \begin{equation}
-    Q_{+}= \oint dz\, S_{+}(z),\qquad Q_{-}=\oint dz\,S_{-}(z)
-  \end{equation}
-  commute with the Virasoro algebra (they ``screen'' the background charge). In full
-  correlators one uses integrated holomorphic$\times$antiholomorphic screenings.
+  % Define the screening fields
+  % \begin{equation}
+  %   S_{+}(z)=:\!e^{i\alpha_+\varphi_L(z)}\!:, \qquad S_{-}(z)=:\!e^{i\alpha_-\varphi_L(z)}
+  %   \!:.
+  % \end{equation}
+  % By construction,
+  % \begin{equation}
+  %   h(\alpha_{\pm})=1,
+  % \end{equation}
+  % so the screening charges
+  % \begin{equation}
+  %   Q_{+}= \oint dz\, S_{+}(z),\qquad Q_{-}=\oint dz\,S_{-}(z)
+  % \end{equation}
+  % commute with the Virasoro algebra (they ``screen'' the background charge). In full
+  % correlators one uses integrated holomorphic$\times$antiholomorphic screenings.
 
-  \subsection{Neutrality condition and definition of minimal-model correlators}
+  % \subsection{Neutrality condition and definition of minimal-model correlators}
 
-  Because of the background charge, correlators on the sphere are nonzero only if
-  total charge is neutralized. For a correlator of chiral vertices
-  $V_{\alpha_i}$ with $N_{\pm}$ screenings, neutrality reads
-  \begin{equation}
-    \sum_{i}\alpha_{i}+ N_{+}\alpha_{+}+ N_{-}\alpha_{-}= 2Q, \qquad N_{\pm}\in \mathbb{Z}
-    _{\ge 0}.
-  \end{equation}
-  Minimal-model correlators are represented by free-field correlators with integrated
-  screenings:
-  \begin{equation}
-    \Big\langle \prod_{i}V_{\alpha_i}(z_{i})\Big\rangle_{\text{minimal}}\;\propto
-    \; \Big\langle \prod_{i}V_{\alpha_i}(z_{i})\; \prod_{a=1}^{N_+}\int d^{2}u_{a}
-    \, S_{+}(u_{a})\; \prod_{b=1}^{N_-}\int d^{2}v_{b}\, S_{-}(v_{b}) \Big \rangle
-    _{\text{free+}Q},
-  \end{equation}
-  with $N_{\pm}$ chosen to satisfy neutrality. The resulting screening integrals
-  are the Dotsenko--Fateev integrals.
+  % Because of the background charge, correlators on the sphere are nonzero only if
+  % total charge is neutralized. For a correlator of chiral vertices
+  % $V_{\alpha_i}$ with $N_{\pm}$ screenings, neutrality reads
+  % \begin{equation}
+  %   \sum_{i}\alpha_{i}+ N_{+}\alpha_{+}+ N_{-}\alpha_{-}= 2Q, \qquad N_{\pm}\in \mathbb{Z}
+  %   _{\ge 0}.
+  % \end{equation}
+  % Minimal-model correlators are represented by free-field correlators with integrated
+  % screenings:
+  % \begin{equation}
+  %   \Big\langle \prod_{i}V_{\alpha_i}(z_{i})\Big\rangle_{\text{minimal}}\;\propto
+  %   \; \Big\langle \prod_{i}V_{\alpha_i}(z_{i})\; \prod_{a=1}^{N_+}\int d^{2}u_{a}
+  %   \, S_{+}(u_{a})\; \prod_{b=1}^{N_-}\int d^{2}v_{b}\, S_{-}(v_{b}) \Big \rangle
+  %   _{\text{free+}Q},
+  % \end{equation}
+  % with $N_{\pm}$ chosen to satisfy neutrality. The resulting screening integrals
+  % are the Dotsenko--Fateev integrals.
 
-  \subsection{Choosing $(p,p')$: minimal models $M(p,p')$, fusion/selection
-  rules, and an explicit Ising example}
+  % \subsection{Choosing $(p,p')$: minimal models $M(p,p')$, fusion/selection
+  % rules, and an explicit Ising example}
 
-  \subsubsection{Rationality: choose $(p,p')$}
-  Minimal models correspond to the rational choice
-  \begin{equation}
-    \alpha_{+}= \sqrt{\frac{p'}{p}},\qquad \alpha_{-}= -\sqrt{\frac{p}{p'}}, \qquad
-    (p,p')=1,\ \ p,p'\ge 2.
-  \end{equation}
-  Then
-  \begin{equation}
-    Q=\alpha_{+}+ \alpha_{-}=\sqrt{\frac{p'}{p}}-\sqrt{\frac{p}{p'}},
-  \end{equation}
-  and the central charge becomes
-  \begin{equation}
-    c=1-6\frac{(p'-p)^{2}}{pp'}.
-  \end{equation}
-  The degenerate weights reproduce the Kac formula
-  \begin{equation}
-    h_{r,s}=\frac{(rp'-sp)^{2}-(p'-p)^{2}}{4pp'}, \qquad 1\le r\le p-1,\ \ 1\le s
-    \le p'-1,
-  \end{equation}
-  with the identification $(r,s)\sim(p-r,p'-s)$. The unitary series is $p'=p+1$.
+  % \subsubsection{Rationality: choose $(p,p')$}
+  % Minimal models correspond to the rational choice
+  % \begin{equation}
+  %   \alpha_{+}= \sqrt{\frac{p'}{p}},\qquad \alpha_{-}= -\sqrt{\frac{p}{p'}}, \qquad
+  %   (p,p')=1,\ \ p,p'\ge 2.
+  % \end{equation}
+  % Then
+  % \begin{equation}
+  %   Q=\alpha_{+}+ \alpha_{-}=\sqrt{\frac{p'}{p}}-\sqrt{\frac{p}{p'}},
+  % \end{equation}
+  % and the central charge becomes
+  % \begin{equation}
+  %   c=1-6\frac{(p'-p)^{2}}{pp'}.
+  % \end{equation}
+  % The degenerate weights reproduce the Kac formula
+  % \begin{equation}
+  %   h_{r,s}=\frac{(rp'-sp)^{2}-(p'-p)^{2}}{4pp'}, \qquad 1\le r\le p-1,\ \ 1\le s
+  %   \le p'-1,
+  % \end{equation}
+  % with the identification $(r,s)\sim(p-r,p'-s)$. The unitary series is $p'=p+1$.
 
-  \subsubsection{Fusion rules from screening solvability}
-  For a correlator of degenerate primaries
-  $\phi_{r_i,s_i}\leftrightarrow V_{\alpha_{r_i,s_i}}$, neutrality demands integers
-  $N_{\pm}\ge 0$ solving
-  \begin{equation}
-    \sum_{i}\alpha_{r_i,s_i}+N_{+}\alpha_{+}+ N_{-}\alpha_{-}= 2Q.
-  \end{equation}
-  For three-point functions, solvability imposes arithmetic constraints on
-  $(r_{i},s_{i})$ that reproduce the BPZ fusion selection rules: allowed $r_{3}$
-  appear in steps of $2$ between $|r_{1}-r_{2}|+1$ and the appropriate upper bound
-  (and similarly for $s$).
+  % \subsubsection{Fusion rules from screening solvability}
+  % For a correlator of degenerate primaries
+  % $\phi_{r_i,s_i}\leftrightarrow V_{\alpha_{r_i,s_i}}$, neutrality demands integers
+  % $N_{\pm}\ge 0$ solving
+  % \begin{equation}
+  %   \sum_{i}\alpha_{r_i,s_i}+N_{+}\alpha_{+}+ N_{-}\alpha_{-}= 2Q.
+  % \end{equation}
+  % For three-point functions, solvability imposes arithmetic constraints on
+  % $(r_{i},s_{i})$ that reproduce the BPZ fusion selection rules: allowed $r_{3}$
+  % appear in steps of $2$ between $|r_{1}-r_{2}|+1$ and the appropriate upper bound
+  % (and similarly for $s$).
 
-  \subsubsection{Explicit example: Ising model $M(3,4)$}
-  The 2d Ising CFT is the unitary minimal model with
-  \begin{equation}
-    (p,p')=(3,4), \qquad c=1-6\frac{(4-3)^{2}}{12}=\frac{1}{2}.
-  \end{equation}
-  We have
-  \begin{equation}
-    \alpha_{+}=\sqrt{\frac{4}{3}}=\frac{2}{\sqrt{3}},\qquad \alpha_{-}=-\sqrt{\frac{3}{4}}
-    =-\frac{\sqrt{3}}{2},\qquad Q=\alpha_{+}+ \alpha_{-}=\frac{2}{\sqrt{3}}-\frac{\sqrt{3}}{2}
-    .
-  \end{equation}
+  % \subsubsection{Explicit example: Ising model $M(3,4)$}
+  % The 2d Ising CFT is the unitary minimal model with
+  % \begin{equation}
+  %   (p,p')=(3,4), \qquad c=1-6\frac{(4-3)^{2}}{12}=\frac{1}{2}.
+  % \end{equation}
+  % We have
+  % \begin{equation}
+  %   \alpha_{+}=\sqrt{\frac{4}{3}}=\frac{2}{\sqrt{3}},\qquad \alpha_{-}=-\sqrt{\frac{3}{4}}
+  %   =-\frac{\sqrt{3}}{2},\qquad Q=\alpha_{+}+ \alpha_{-}=\frac{2}{\sqrt{3}}-\frac{\sqrt{3}}{2}
+  %   .
+  % \end{equation}
 
-  \paragraph{(a) The three primaries $1,\sigma,\varepsilon$.}
-  The Kac labels are $1\le r\le 2$, $1\le s\le 3$, with $(r,s)\sim(3-r,4-s)$.
-  The distinct primaries are
-  \begin{equation}
-    (1,1)\sim(2,3),\qquad (1,2)\sim(2,2),\qquad (1,3)\sim(2,1).
-  \end{equation}
-  Their conformal weights are
-  \begin{align}
-    h_{1,1} & =\frac{(1\cdot 4-1\cdot 3)^{2}-(1)^{2}}{4\cdot 3\cdot 4}=0, \\
-    h_{1,2} & =\frac{(4-6)^{2}-1}{48}=\frac{1}{16},                       \\
-    h_{1,3} & =\frac{(4-9)^{2}-1}{48}=\frac{1}{2},
-  \end{align}
-  so $\sigma\leftrightarrow(1,2)$ and $\varepsilon\leftrightarrow(1,3)$.
+  % \paragraph{(a) The three primaries $1,\sigma,\varepsilon$.}
+  % The Kac labels are $1\le r\le 2$, $1\le s\le 3$, with $(r,s)\sim(3-r,4-s)$.
+  % The distinct primaries are
+  % \begin{equation}
+  %   (1,1)\sim(2,3),\qquad (1,2)\sim(2,2),\qquad (1,3)\sim(2,1).
+  % \end{equation}
+  % Their conformal weights are
+  % \begin{align}
+  %   h_{1,1} & =\frac{(1\cdot 4-1\cdot 3)^{2}-(1)^{2}}{4\cdot 3\cdot 4}=0, \\
+  %   h_{1,2} & =\frac{(4-6)^{2}-1}{48}=\frac{1}{16},                       \\
+  %   h_{1,3} & =\frac{(4-9)^{2}-1}{48}=\frac{1}{2},
+  % \end{align}
+  % so $\sigma\leftrightarrow(1,2)$ and $\varepsilon\leftrightarrow(1,3)$.
 
-  The corresponding Coulomb-gas charges are
-  \begin{equation}
-    \alpha_{r,s}=\frac{1}{2}\big((1-r)\alpha_{+}+ (1-s)\alpha_{-}\big),
-  \end{equation}
-  so
-  \begin{equation}
-    \alpha_{1,1}=0,\qquad \alpha_{1,2}=-\frac{\alpha_{-}}{2}=\frac{\sqrt{3}}{4},\qquad
-    \alpha_{1,3}=-\alpha_{-}=\frac{\sqrt{3}}{2}.
-  \end{equation}
+  % The corresponding Coulomb-gas charges are
+  % \begin{equation}
+  %   \alpha_{r,s}=\frac{1}{2}\big((1-r)\alpha_{+}+ (1-s)\alpha_{-}\big),
+  % \end{equation}
+  % so
+  % \begin{equation}
+  %   \alpha_{1,1}=0,\qquad \alpha_{1,2}=-\frac{\alpha_{-}}{2}=\frac{\sqrt{3}}{4},\qquad
+  %   \alpha_{1,3}=-\alpha_{-}=\frac{\sqrt{3}}{2}.
+  % \end{equation}
 
-  \paragraph{(b) A neutrality check: $\langle \sigma\sigma\varepsilon\rangle\neq
-  0$.}
-  Consider the chiral charges
-  \begin{equation}
-    \alpha_{\sigma}=\alpha_{1,2}=\frac{\sqrt{3}}{4},\qquad \alpha_{\varepsilon}=\alpha
-    _{1,3}=\frac{\sqrt{3}}{2}.
-  \end{equation}
-  Their sum is
-  \begin{equation}
-    2\alpha_{\sigma}+\alpha_{\varepsilon}=2\cdot\frac{\sqrt{3}}{4}+\frac{\sqrt{3}}{2}
-    =\sqrt{3}.
-  \end{equation}
-  Neutrality requires
-  \begin{equation}
-    2\alpha_{\sigma}+\alpha_{\varepsilon}+ N_{+}\alpha_{+}+ N_{-}\alpha_{-}= 2 Q.
-  \end{equation}
-  Compute
-  \begin{equation}
-    2Q=2\left(\frac{2}{\sqrt{3}}-\frac{\sqrt{3}}{2}\right)=\frac{1}{\sqrt{3}}.
-  \end{equation}
-  Thus
-  \begin{equation}
-    \sqrt{3}+ N_{+}\frac{2}{\sqrt{3}}+ N_{-}\left(-\frac{\sqrt{3}}{2}\right)= \frac{1}{\sqrt{3}}
-    .
-  \end{equation}
-  Multiplying by $\sqrt{3}$ gives
-  \begin{equation}
-    3 + 2N_{+}- \frac{3}{2}N_{-}= 1 \quad\Longleftrightarrow\quad 4N_{+}- 3N_{-}=
-    -4.
-  \end{equation}
-  One nonnegative integer solution is
-  \begin{equation}
-    N_{+}=2,\qquad N_{-}=4,
-  \end{equation}
-  confirming that the Coulomb-gas construction allows a nonzero correlator in
-  this channel (consistent with $\sigma\times\sigma\sim \mathbf{1}+\varepsilon$).
+  % \paragraph{(b) A neutrality check: $\langle \sigma\sigma\varepsilon\rangle\neq
+  % 0$.}
+  % Consider the chiral charges
+  % \begin{equation}
+  %   \alpha_{\sigma}=\alpha_{1,2}=\frac{\sqrt{3}}{4},\qquad \alpha_{\varepsilon}=\alpha
+  %   _{1,3}=\frac{\sqrt{3}}{2}.
+  % \end{equation}
+  % Their sum is
+  % \begin{equation}
+  %   2\alpha_{\sigma}+\alpha_{\varepsilon}=2\cdot\frac{\sqrt{3}}{4}+\frac{\sqrt{3}}{2}
+  %   =\sqrt{3}.
+  % \end{equation}
+  % Neutrality requires
+  % \begin{equation}
+  %   2\alpha_{\sigma}+\alpha_{\varepsilon}+ N_{+}\alpha_{+}+ N_{-}\alpha_{-}= 2 Q.
+  % \end{equation}
+  % Compute
+  % \begin{equation}
+  %   2Q=2\left(\frac{2}{\sqrt{3}}-\frac{\sqrt{3}}{2}\right)=\frac{1}{\sqrt{3}}.
+  % \end{equation}
+  % Thus
+  % \begin{equation}
+  %   \sqrt{3}+ N_{+}\frac{2}{\sqrt{3}}+ N_{-}\left(-\frac{\sqrt{3}}{2}\right)= \frac{1}{\sqrt{3}}
+  %   .
+  % \end{equation}
+  % Multiplying by $\sqrt{3}$ gives
+  % \begin{equation}
+  %   3 + 2N_{+}- \frac{3}{2}N_{-}= 1 \quad\Longleftrightarrow\quad 4N_{+}- 3N_{-}=
+  %   -4.
+  % \end{equation}
+  % One nonnegative integer solution is
+  % \begin{equation}
+  %   N_{+}=2,\qquad N_{-}=4,
+  % \end{equation}
+  % confirming that the Coulomb-gas construction allows a nonzero correlator in
+  % this channel (consistent with $\sigma\times\sigma\sim \mathbf{1}+\varepsilon$).
 
-  \paragraph{(c) $\langle\sigma\sigma\sigma\sigma\rangle$ and BPZ blocks.}
-  The field $\sigma=\phi_{1,2}$ is degenerate at level $2$, so correlators
-  involving $\sigma$ satisfy a second-order BPZ differential equation. In Coulomb
-  gas, $\langle \sigma\sigma\sigma\sigma\rangle$ is represented as a Dotsenko--Fateev
-  screening integral; evaluating it yields the two hypergeometric conformal
-  blocks corresponding to the fusion channels $\mathbf{1}$ and $\varepsilon$.
+  % \paragraph{(c) $\langle\sigma\sigma\sigma\sigma\rangle$ and BPZ blocks.}
+  % The field $\sigma=\phi_{1,2}$ is degenerate at level $2$, so correlators
+  % involving $\sigma$ satisfy a second-order BPZ differential equation. In Coulomb
+  % gas, $\langle \sigma\sigma\sigma\sigma\rangle$ is represented as a Dotsenko--Fateev
+  % screening integral; evaluating it yields the two hypergeometric conformal
+  % blocks corresponding to the fusion channels $\mathbf{1}$ and $\varepsilon$.
 
 \section{Mathematical description of defects (AI summary of conversation with Sahand)}
 
@@ -2690,7 +3287,7 @@ At this stage there is, in general, no canonical product
 Indeed, two defect endpoints at the same point do not compose in the same way as two bulk local operators. Thus \(\mathcal D_L\) is not naturally an algebra.
 
 This already explains the first structural distinction:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item bulk local operators \(\rightsquigarrow\) algebra \(\mathcal A\),
     \item defect endpoints \(\rightsquigarrow\) module-like object \(\mathcal D_L\).
 \end{itemize}
@@ -2705,7 +3302,7 @@ a \cdot \psi \in \mathcal D_L.
 This is the analogue of multiplying by a local operator, except that the result remains in the defect space rather than in \(\mathcal A\) itself. Therefore \(\mathcal D_L\) is naturally a \emph{left \(\mathcal A\)-module}.
 
 Conceptually:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item \(\mathcal A\) knows how to multiply with itself,
     \item \(\mathcal D_L\) does not know how to multiply with itself,
     \item but \(\mathcal A\) does know how to \emph{act on} \(\mathcal D_L\).
@@ -2727,7 +3324,7 @@ a \triangleright \psi,
 \]
 
 This is the origin of the left and right actions. Algebraically, one may phrase this by saying:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item one action is a representation of \(\mathcal A\),
     \item the other is a representation of the opposite algebra \(\mathcal A^{\mathrm{op}}\).
 \end{itemize}
@@ -2812,7 +3409,7 @@ More strongly, one expects matrix positivity:
 This is the operator-algebraic shadow of reflection positivity.
 
 For this reason, a \emph{plain bimodule} is not quite enough. A plain bimodule remembers only the left and right actions; it does not by itself encode:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item the adjoint,
     \item positivity,
     \item the algebra-valued inner product.
@@ -2823,7 +3420,7 @@ To encode these, the correct structure is a \emph{Hilbert \(C^*\)-module}, or, w
 \section{The wrapped local operator as a completely positive map}
 
 Suppose now that \(E\) is a defect space equipped with:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item a left action \(\pi : \mathcal A \to \mathcal L_B(E)\),
     \item a right \(B\)-module structure,
     \item a \(B\)-valued inner product,
@@ -2857,14 +3454,14 @@ then it is also unital. Thus the wrapped-operator construction gives a unital co
 Yes, but with an important refinement.
 
 If one only wants to encode:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item action from below,
     \item the left and right actions from above,
 \end{itemize}
 then a \emph{bimodule} is the correct first approximation.
 
 If one also wants to encode:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item the adjoint,
     \item positivity,
     \item the algebra-valued inner product,
@@ -2873,7 +3470,7 @@ If one also wants to encode:
 then the correct object is not merely a bimodule but a \emph{Hilbert bimodule} or \emph{\(C^*\)-correspondence}.
 
 Thus:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item bare geometric defect tip \(\rightsquigarrow\) module or bimodule,
     \item reflection-positive defect theory \(\rightsquigarrow\) Hilbert bimodule / correspondence,
     \item chosen defect state or endpoint field \(\rightsquigarrow\) pointed correspondence \((E,\xi)\),
@@ -2892,7 +3489,7 @@ The usual GNS construction begins with a positive linear functional
 \omega : \mathcal A \to \mathbb C,
 \]
 and produces:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item a Hilbert space \(H_\omega\),
     \item a representation \(\pi_\omega\),
     \item a cyclic vector \(\Omega_\omega\),
@@ -2909,7 +3506,7 @@ For a completely positive map
 \Phi : \mathcal A \to B,
 \]
 The appropriate generalization is:
-\begin{itemize}[leftmargin=2em]
+\begin{itemize}
     \item a Hilbert \(B\)-module \(E_\Phi\),
     \item a left action \(\pi_\Phi : \mathcal A \to \mathcal L_B(E_\Phi)\),
     \item a distinguished vector \(\xi_\Phi \in E_\Phi\),
