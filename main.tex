@@ -2609,6 +2609,7 @@ Here the matrix indices act on the defect ancilla qubit \(a\), while the entries
 act on the physical spin at site \(j\).  Conjugation by \(\lambda_D^j\)
 acts on local Pauli operators as
 \begin{equation}
+\label{eq:repd8movementaction}
 \begin{aligned}
     X_j &\to X_j,\\
     Z_j &\to Z_j Z_a,\\
@@ -2738,6 +2739,28 @@ Therefore the full UCP map $\Phi_{D_8}$ can be written as
 
 
 
+
+We can assume that the right defect in the pair is sufficiently far away so that its matrix element $\bra{+}(U^D_{j_{E_2}})\ket{+}$ is just $1$.  The actions  $\Phi_{D_8}(Z_{i-1}Z_{i+1})$ and  $\Phi_{D_8}(X_i)$ are simple to verify given the action of $U^D_i$ on local operators. 
+
+
+\color{blue}
+Example: $Z_{i-1}Z_{i+1}$
+
+Let \(\alpha_j(O)=\lambda_D^jO(\lambda_D^j)^\dagger\).  For the
+operator \(Z_{i-1}Z_{i+1}\), the moving \(D\) defect must cross the
+three sites \(i-1,i,i+1\).  Therefore
+\[
+    \Phi_D(Z_{i-1}Z_{i+1})
+    =
+    (\bra{00}_{j_{E_1},j_{E_2}} + \bra{11}_{j_{E_1},j_{E_2}})
+    \alpha_{i+1}\alpha_i\alpha_{i-1}
+    (Z_{i-1}Z_{i+1})
+    (\ket{00}_{j_{E_1},j_{E_2}} + \ket{11}_{j_{E_1},j_{E_2}}).
+\]
+
+
+In terms of explicit MPO tensors:
+
 \begin{align}
     \Phi_{D_8}(Z_{i-1}Z_{i+1}) = (\bra{00}_{j_{E_1},j_{E_2}} + \bra{11}_{j_{E_1},j_{E_2}})\Big(\begin{pmatrix}
         1 \ 1\\ -X_{i-1}\ X_{i-1}
@@ -2757,23 +2780,7 @@ Therefore the full UCP map $\Phi_{D_8}$ can be written as
     \end{pmatrix}^\dagger\Big)(\ket{00}_{j_{E_1},j_{E_2}} + \ket{11}_{j_{E_1},j_{E_2}})
 \end{align}
 
-We can assume that the right defect in the pair is sufficiently far away so that its matrix element $\bra{+}(U^D_{j_{E_2}})\ket{+}$ is just $1$.  The actions  $\Phi_{D_8}(Z_{i-1}Z_{i+1})$ and  $\Phi_{D_8}(X_i)$ are simple to verify given the action of $U^D_i$ on local operators. 
 
-
-\color{blue}
-Example: $Z_{i-1}Z_{i+1}$
-
-Let \(\alpha_j(O)=\lambda_D^jO(\lambda_D^j)^\dagger\).  For the
-operator \(Z_{i-1}Z_{i+1}\), the moving \(D\) defect must cross the
-three sites \(i-1,i,i+1\).  Therefore
-\[
-    \Phi_D(Z_{i-1}Z_{i+1})
-    =
-    \bra{\Omega_D}_{a_1a_2}
-    \alpha_{i+1}\alpha_i\alpha_{i-1}
-    (Z_{i-1}Z_{i+1})
-    \ket{\Omega_D}_{a_1a_2}.
-\]
 Using
 \[
     Z_j\mapsto Z_jZ_{a_1},\qquad
@@ -2800,6 +2807,8 @@ Since the final expression is independent of the defect qubits,
     =
     Z_{i-1}X_iZ_{i+1}.
 \]
+
+
 \color{black}
 
 
@@ -2814,13 +2823,83 @@ as desired.
 
 The UCP map is again faithful since the kernel is only non positive operators and non-injective since it is non-invertible. 
 
+In contrast with KW, the action on all operators is not purely determined by the action on $\mathbb{Z}_2$ even operators and the kernel.  This is because the multiplicative domain consists of $(\mathbb{Z}_{2})_e \times (\mathbb{Z}_{2})_o$ operators, so operators such as $Z_iZ_{i+1}$ are not in the multiplicative domain.  Thus, in order to verify extremality, we need to check that the action of candidate maps $\Phi_{D_8}'$ and $\Phi_{D_8}''$ agree on all four sectors \[(\mathbb{Z}_{2})_e \times (\mathbb{Z}_{2})_o = \begin{cases}
+    (\text{even},\text{even})\\
+    (\text{even},\text{odd})\\
+    (\text{odd},\text{even})\\
+    (\text{odd},\text{odd})
+\end{cases}\]
+
+
+Then, $Z_iZ_{i+1}$ is a representative operator in the (odd, odd) sector since it is $\mathbb{Z}_2$ odd on both even and odd numbered sites.
+
+To prove $\Phi_{D_8}$ is extremal, we start with the same setup as the KW case.  Suppose we have $\Phi_{D_8} = (1-t)\Phi_{D_8}' + t\Phi_{D_8}''$ for some unknown UCP maps $\Phi_{D_8}'$ and $\Phi_{D_8}''$.  According to Choi's theorem, the three maps agree on the multiplicative domain, which is the (even, even) sector.  We now check that they agree on the generators of the three other sectors.
+
+For (even, odd) we have 
+
+\begin{align}
+    (\prod_{i \text{ odd} \in [-2n,2n]} Z_{i-1}X_{i}Z_{i+1}) Z_{j_{odd}} &= -Z_{j_{odd}}(\prod_{i \text{ odd} \in [-2n,2n]} Z_{i-1}X_{i}Z_{i+1})\\
+    \Phi_{D_8}'(\prod_{i \text{ odd} \in [-2n,2n]} Z_{i-1}X_{i}Z_{i+1}) \Phi_{D_8}'(Z_{j_{odd}}) &= -\Phi_{D_8}'(Z_{j_{odd}})\Phi_{D_8}'(\prod_{i \text{ odd} \in [-2n,2n]} Z_{i-1}X_{i}Z_{i+1}) \\
+     Z_{-2n}Z_{-2n+2}Z_{-2n+2}Z_{-2n+4}...Z_{2n} \Phi_{D_8}'(Z_{j_{odd}}) &= -\Phi_{D_8}'(Z_{j_{odd}})Z_{-2n}...Z_{2n}\\
+     \Phi_{D_8}'(Z_{j_{odd}}) Z_{-2n}Z_{2n}  &= -\Phi_{D_8}'(Z_{j_{odd}})Z_{-2n}Z_{2n}
+\end{align}
+
+
+where in the last line we have taken $n$ arbitrarily large such that if $\Phi_{D_8}$ respects locality it will commute with $Z_{-2n}Z_{2n}$.  This can only be true if $\Phi_{D_8}'(Z_{j_{odd}}) = 0$, which agrees with the action of $\Phi_{D_8}(Z_{j_{odd}})$.  The proof proceeds similarly for the other two sectors, where one can consider a product over even or all sites for the (odd, even) and (odd, odd) cases respectively.  Thus we have shown that the maps agree on all sectors of the theory so are identical and the Rep($D_8$) UCP is extremal as expected.
 \color{brown}
 According to Sahand, all UCP maps that are symmetries should be pure which means they are extremal in terms of Kraus operators
 \color{black}
 
-\section{Rep($G$) with Multiplicity}
 
-Rep($A_8$)
+The action of the complementary map on local operators is readily computed using Eq.~\ref{eq:repd8movementaction}. For $\Phi^C_{D_8}$, the action of the channel depends on how far we choose to move the defect to the right before inserting the operator.  This is because each movement operator $U^j_{D}$ is coupled to the ancilla degree of freedom via the CNOT and Hadamard, so successive conjugations will toggle between $X_a$ and $Z_a$. We find two sets of results depending on if the number of applications is even or odd:
+
+\color{blue}
+\begin{align}
+    &\Phi^C_{D_8}(Z_{a_1}1_{a_2}) = (\bra{00}_{a_1,a_2} + \bra{11}_{a_1,a_2}) U_1 ... U_{j-1} U_j Z_{a_1} (U_j)^\dagger (U_{j-1})^\dagger ... (U_{1})^\dagger (\ket{00}_{a_1,a_2} + \ket{11}_{a_1,a_2})\\
+    &= (\bra{00}_{a_1,a_2} + \bra{11}_{a_1,a_2}) U_1 ...U_{j-1} X_{a_1}X_j (U_{j-1})^\dagger ... (U_{1})^\dagger (\ket{00}_{a_1,a_2} + \ket{11}_{a_1,a_2})\\
+    &=  (\bra{00}_{a_1,a_2} + \bra{11}_{a_1,a_2}) U_1 ...U_{j-2}Z_{a_1}X_j(U_{j-2})^\dagger ... (U_{1})^\dagger (\ket{00}_{a_1,a_2} + \ket{11}_{a_1,a_2})\\
+    &= ...
+\end{align}
+
+\color{black}
+
+\begin{equation} \text{even number of movement operators $n$:}
+\begin{cases}
+    \Phi^C_{D_8}(Z_{a_1}1_{a_2}) = \Phi_{D_8}(X_{a_1}1_{a_2}) = 0\\
+    \Phi^C_{D_8}(Z_{a_1}Z_{a_2}) = S_Z^{(n)}\\
+    \Phi^C_{D_8}(X_{a_1}X_{a_2}) = S_X^{(n)}\\
+    \Phi^C_{D_8}(Z_{a_1}X_{a_2}) = \Phi_{D_8}(X_{a_1}Z_{a_2}) = 0 \\
+\end{cases}
+\end{equation}
+
+
+\begin{equation} \text{odd number of movement operators $n$:}
+\begin{cases}
+     \Phi^C_{D_8}(Z_{a_1}1_{a_2}) = \Phi_{D_8}(X_{a_1}1_{a_2}) = 0\\
+    \Phi^C_{D_8}(Z_{a_1}X_{a_2}) = S_Z^{(n)}\\
+    \Phi^C_{D_8}(X_{a_1}Z_{a_2}) = S_X^{(n)}\\
+    \Phi^C_{D_8}(Z_{a_1}Z_{a_2}) = \Phi_{D_8}(X_{a_1}X_{a_2}) = 0 \\
+\end{cases} \end{equation}
+
+$ S_Z^{(n)}$ and $ S_X^{(n)}$ are strings of $X$ operators on the physical sites
+
+\begin{eqnarray}
+    S_Z^{(n)} = \prod_{i \text{ even}} X_i\\
+    S_X^{(n)} = \prod_{i \text{ odd}} X_i
+\end{eqnarray}
+
+As expected, the complementary channel mixes operators acting on the environment $a_1a_2$ with operators acting on the physical system.
+
+\section{Rep($A_4$)}
+
+Rep($A_4$) sources:
+
+\begin{enumerate}
+    \item Tantivasadakarn et. al.~\cite{tantivasadakarn2026generalizedkwduality}: Lattice constructions of general Rep($H$) models, writes down symmetry operators in ZX calculus format and constructs parent Hamiltonians
+    \item Perez-Lona et. al.~\cite{perezlona2025gaugingnismultiplicity}: Continuum discussion of non-invertible symmetries and their gauging in the multiplicity case, discusses Rep($A_4$) symmetric CFT from orbifolding boson at self T-dual point
+    \item Lootens et. al.~\cite{lootens2025entanglementdmrglandau}: Lattice discussion of SPTs with categorical symmetry, discusses Rep($A_4$) symmetric model in terms of perturbation to Heisenberg chain
+    \item You~\cite{you2025symmetricentanglersnoninvertiblespt}: Lattice discussion of Rep($A_4$) symmetry protected topological phase, discusses action of symmetry but not implementation
+\end{enumerate}
 
 
 
