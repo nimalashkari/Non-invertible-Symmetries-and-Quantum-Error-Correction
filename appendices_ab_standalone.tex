@@ -4,7 +4,8 @@
 \usepackage{amsmath,amssymb,mathtools}
 \usepackage{braket}
 \usepackage[colorlinks=true,linkcolor=blue]{hyperref}
-
+\newcommand{\lb}{\left(}
+\newcommand{\rb}{\right)}
 \newcommand{\Tr}{\mathrm{tr}}
 \newcommand{\mA}{\mathcal{A}}
 \newcommand{\mE}{\mathcal{E}}
@@ -13,10 +14,155 @@
 \newcommand{\nn}{\nonumber}
 
 \begin{document}
-\appendix
+
 
 \section{Mathematical structure in the group case}
 \label{sec:group-case-appendix}
+
+In a general compact group $G$, we have a finite left-invariant Haar measure $d\mu_L(g)$ which allows us to study the group $G$ through the lens of measurable functions that live on it. The Haar measure allows us to define $L_p$-norms
+\begin{align}
+    \|f\|_{p,L}=\lb\int d\mu_L(g) |f(g)|^p\rb^{1/p}
+\end{align}
+We also have a right-invariant Haar measure $d\mu_R(g)$ we satisfies
+\begin{align}
+\mu_L(g)=\mu_R(g^{-1})=\Delta(g) \mu_R(g)    
+\end{align}
+where $\Delta(g)$ is called the modular function of $G$. Since $\|f\|_{p,L}=\|f\|_{p,R}$ we simplify our notation by defining $\|f\|_p\equiv \|f\|_{p,L}$ and we will only work with the left-invariant Haar measure $\mu(g)\equiv \mu_L(g)$. To keep track of the right-Haar measure, we introduce the anti-pode map $S:g\to g^{-1}$ which is self-adjoint and satisfies $S=S^\dagger=S^{-1}$. The $L^\infty(G)$ is the isometric dual of $L^1(G)$ via the Hölder pairing,
+\begin{equation}
+    \langle f, h \rangle \equiv \int_G f(x) h(x) \, d\mu(x)\ .
+\end{equation}
+
+For compact groups, we have the inclusion of closed vector spaces
+\begin{align}\label{hierLp}
+    L^\infty(G)\subseteq L^2(G)\subseteq L^1(G)
+\end{align}
+Note that $L^2(G)$ is self-dual, whereas $L^\infty(G)$ is the Holder dual of  $L^1(G)$ \footnote{In this note, we will be primarily concerned with finite groups where this hierarchy simplifies to $\mathbb{C}(G)\simeq L^1(G)\simeq L^2(G)\simeq L^\infty(G)$.}. 
+% To make Holder duality manifest, we choose the notation 
+% \begin{align}
+%     &L^\infty(G)\ni \ket{f}=\sum_g f(g) \ket{g}\nn\\
+%     &L^1(G)\ni \bra{h}=\sum_g h(g)\bra{g}\ .
+% \end{align}
+To turn these linear vector spaces into algebras, there are two choices of multiplication we can make:
+\begin{align}
+    &(f_1\cdot f_2)(g)=f_1(g)f_2(g)\nn\\
+    &(f_1*f_2)(g)=\int d\mu(h) \: f_1(h)f_2(h^{-1}g)
+\end{align}
+These multiplications result in two different algebras: the Abelian algebra of $L^\infty(G)$, which encodes the geometry of $G$, and the convolution algebra $L^1(G)$, which is non-Abelian if and only if $G$ is non-Abelian. 
+
+\paragraph{Algebra of observables $L^\infty(G)$:} The first multiplication is manifestly commutative, and since $\|f_1\cdot f_2 \|_\infty\leq \|f_1\|_\infty\|f_2\|_\infty$, the vector space $L^\infty(G)$ is closed with respect to this multiplication, and hence an Abelian algebra. This Abelian algebra encodes the {\it geometry of group $G$} \footnote{For any measurable space $X$, we have an Abelian algebra $L^\infty(X)$, and a classical result establishes that to every Abelian algebra one can associate a measurable space. We will refer to this as classical Gelfand duality.}. In an analogy with classical mechanics that interprets $G$ as the phase space, functions $L^\infty(G)$ have the interpretation of classical observables. 
+
+\paragraph{Algebra of states $L^1(G)$ (pre-dual):} In contrast, $L^1(G)$ does not form an algebra under pointwise multiplication due to non-integrable singularities in the squared functions. Instead, it forms a Banach algebra under left convolution. By Young's convolution inequality, $\|f * g\|_1 \leq \|f\|_1 \|g\|_1$, ensuring closure. In the left regular representation, these $L^1$ functions define bounded integral operators that smear the group action over the manifold.
+
+There are a few comments:
+
+\begin{itemize}
+    \item {\bf Dual group $\hat{G}$:} For Abelian groups, $L^1(G)$ is also Abelian and encodes the geometry of the Fourier space to $G$ that we denote by $\hat{G}$. In the non-Abelian case, we will say that $L^1(G)$ encodes a {\it dual group} $\hat{G}$ which is neither a measurable space nor a group. It is sometimes called a {\it quantum group} (as an example of {\it quantum geometry}). By non-Abelian Gelfand duality, the irreducible representations $r$ of $G$ play the role of {\it quantum points} in the {\it quantum geometry}.
+
+\item {\bf Right convolution algebra:} We can also define a right-convolution multiplication: $(f_1*_R f_2)=f_1* f_2$. With this multiplication, we obtain a different Banach space $L_R^1(G)$, and we can show explicitly that all operators in $L^1(G)$ and $L^1_R(G)$ commute. In fact, they are isometric with the isomorphism established by the anti-pode map $S:g\to g^{-1}$ that swaps the left-convolution with the right-convolution.
+
+\end{itemize}
+
+The algebras above can be represented as subalgebras of operators in the regular representation $L^2(G)$:
+\begin{align}
+&\iota_1(L^1(G))\subset B(L^2(G))\nn\\
+&\iota_\infty(L^\infty(G))\subset B(L^2(G))\ .
+\end{align}
+with embeddings (representations)
+\begin{align}
+    &\iota_\infty(f)=\sum_g g(h) e_g,\qquad e_g\equiv \ket{g}\bra{g}\nn\\
+    &\iota_1(f)=\sum_g f(g) U_g, \qquad U_h=\sum_g \ket{h g}\bra{g}\ .
+\end{align}
+The right convolution algebra $L^1_R(G)\simeq L^1(G)$ is embedded by the isometry
+\begin{align}
+    \iota_1^R(f)=\sum_g f(g) U'_g, \qquad U'_h\equiv \sum_g \ket{g h^{-1}}\bra{g}=\sum_g \ket{g}\bra{g h}=S U_g S
+\end{align}
+where $S$ is the anti-pode. Note that $U_g$ and $U'_g$ are unitary, and we can write 
+\begin{align}
+    L^1(G)=\mathbb{C}\rtimes_{\iota_1} G
+\end{align}
+Note that $U_{g_1}U_{g_2}=U_{g_1g_2}$ implies that the multiplication of two functions $\delta(g-g_1)$ and $\delta(g-g_2)$ should result in $\delta(g_1g_2)$ which fixes the multiplication to be convoltuion:
+\begin{align}
+ \delta(g-g_1)*\delta(g-g_2)=\delta(g-g_1g_2).   
+\end{align}
+Since $S$ acts as a unitary on $B(L^2(G))$ we also have a second representation for $L^\infty(G)$. We inroduce the notation
+\begin{align}
+    &\iota^\pm_\infty(f)=\sum_g g(h) e_g^\pm, \qquad e_g^+=e_g,\qquad  e_g^-=\ket{g^{-1}}\bra{g^{-1}}\nn\\
+    &\iota^\pm_1(f)=\sum_g g(h) U_g^\pm, \qquad U_g^+=U_g, \qquad U_g^-=U'_g\nn\\
+    &\iota_1^\pm=S\circ \iota_1^\mp\circ S,\qquad \iota_\infty^\pm=S\circ \iota_\infty^\mp\circ S
+\end{align}
+and we have the relations
+\begin{align}
+    &U^\pm_g e_h^\pm=e^\pm_{g h}U_h^\pm,,\qquad U^\mp_g e_h^\pm=e^\pm_{h g^{-1}} U_g^{\mp}
+\end{align}
+
+As we saw $L^1_R(G)$ is in the relative commutant of the inclusion $\iota_1$. 
+In fact, we have
+\begin{align}
+    &\iota_1(L^1(G))'\simeq Z(\iota_1(L^1(G)))\vee \iota_1^R(L^1_R(G))\nn\\
+    &\iota_1(L^1(G))\vee \iota_1^R(L^1_R(G))\simeq B(L^2(G))\ .
+\end{align}
+Furthermore, we have
+\begin{align}
+    L^1(G)\vee L^\infty(G)=B(L^2(G))\ .
+\end{align}
+
+For a finite group, it is natural to use the GNS Hilbert space representation of $B(L^2(G))$ in the tracial state
+\begin{align}
+    &\omega(a)=\frac{1}{|G|}\sum_{g\in G}\braket{g| a |g}\nn\\
+    &\pi_\omega(1)=\ket{1}\equiv\frac{1}{\sqrt{|G|}}\sum_{g\in G}\ket{g}\ket{g}\nn\\
+    &\pi_\omega(a)=(a\otimes 1)\ket{1}\ .
+\end{align}
+Then, we define the projections $P_1^\pm$ and $P_\infty=P_\infty^\pm$
+\begin{align}
+    &\mH_1^\pm=P_1^\pm\mH\equiv \overline{\iota_1^\pm(f)\ket{1}}\nn\\
+    &\mH_\infty^\pm=P_\infty^\pm\mH\equiv \overline{\iota_1^\pm(f)\ket{1}}\ .
+\end{align}
+These projections are the {\it canonical endormophism} for the inclusion $\iota_1(L^1(G))\subset B(L^2(G))$.
+
+\begin{align}
+    e_g\to \ket{g}\ket{g},\qquad U_g\to \sum_h \ket{g h}\ket{h}, \qquad S\ket{g}\ket{h}=\ket{h}\ket{g}\ .
+\end{align}
+
+
+Therefore, we obtain maps 
+\begin{align}
+    &\iota_\infty^\dagger\circ \iota_1:L^1(G)\to L^\infty(G)\nn\\
+    &\iota_1^\dagger\circ \iota_\infty:L^\infty(G)\to L^1(G)\ .
+\end{align}
+For compact groups, due to the hierarchy eq (\ref{hierLp}),  $\iota_\infty^\dagger\circ \iota_1$ is an embedding ($*$-homomorphism), whereas for finite groups $G$, it is an isomorphism realized by a unitary map that does a non-Abelian Fourier transform, swapping point-by-point multiplication in $G$ by convolution in $G$. 
+
+We aim to study the following inclusion of algebras
+\begin{align}
+ Z(L^1(G))\subset L^1(G)\subset B(L^2(G))\ .
+\end{align}
+
+There can be many embeddings of $L^2(G)$ inside $B(L^2(G))$. 
+
+
+To keep our discussion generalizable beyond finite groups, we choose one embedding for $L^\infty(G)$
+
+There is always a geometric embedding 
+\begin{align}
+    &\iota_\infty:\bra{g}\to e_g=\ket{g}\bra{g}\nn\\
+    &\iota_\infty(\bra{f})=\sum_g f(g)\ket{g}\bra{g}
+\end{align}
+that results in point-by-point multiplication and an Abelian algebra. 
+
+An alternative embedding is provided by
+\begin{align}
+    &\iota_1:\ket{g}\to T_g=\sum_h \ket{g h}\bra{h}\nn\\
+    &\iota_1(\ket{f})=\sum_{gh}f(g)\ket{g h}\bra{h}
+\end{align}
+That results in left convolution multiplication and a non-Abelian algebra if and only if $G$ is non-Abelian.
+
+It is convenient to choose the tracial state on $B(L^2(G))$ and construct the GNS Hilbert space by building the representation:
+
+
+This embedding combined with its dual, gives the conditional expectation
+\begin{align}
+(\iota_\infty\circ\iota_\infty^\dagger)(a\in B(L^2(G)))=\sum_g \braket{g|a|g}=\textbf{Tr}_{L^2(G)}(a) 
+\end{align}
+
 
 \subsection{Groups and their duals}
 
@@ -26,6 +172,7 @@ $L^2(G)$, with orthonormal basis $\{\ket g\}_{g\in G}$ and inner product
 \begin{eqnarray}
     \braket{f_1|f_2}=\sum_{g\in G}f_1^*(g) f_2(g).
 \end{eqnarray}
+
 The left and right regular actions are
 \begin{eqnarray}
     U_h\ket{g}=\ket{h g}, \qquad U'_h\ket{g}=\ket{g h^{-1}}.
@@ -50,7 +197,17 @@ and its commutant is
 \begin{align}
     &\mathcal{L}(G)'=\{U'_g:g\in G\}''\ .
 \end{align}
-This is the left/right representation duality.
+This is the left/right representation duality. Note that the center of $\mathcal{L}(G)$ is already included inside $\mathcal{L}(G)'$:
+\begin{align}
+    Z(\mathcal{L}^1(G))=\mathcal{L}(G)\cap \mathcal{L}(G)'
+\end{align}
+Note that for finite groups we have $\mathcal{L}(G)\simeq L^1(G)\simeq L^2(G)\simeq \mathbb{C}(G)$.
+Applying the Haar average over $G$ projects $L^1(G)$ to $Z(L^1(G))$:
+\begin{align}
+    &\mathcal{E}(a)=\frac{1}{|G|}\sum_g U_g a U_g^\dagger\nn\\
+    &\mathcal{E}:L^1(G)\to Z(L^1(G))\ .
+\end{align}
+
 By the Peter--Weyl decomposition,
 \begin{align}
     L^2(G)=\oplus_{r\in\hat{G}} \mH_r\otimes \mH_r^*
@@ -406,7 +563,7 @@ group-theoretic toy model of the operator-algebraic QEC slogan:
 \end{align}
 
 
-\section{Group actions on von Neumann algebras and duality}
+\section{Quantum dynamical systems: Group actions on von Neumann algebras}
 \label{sec:group-action-vna-duality}
 
 In the previous appendix, we studied groups through the lens of complex functions defined on them. In this subsection, we study groups through the lens of algebra-valued functions that live on them. Appendix~\ref{sec:group-case-appendix} discussed the regular representation and
@@ -553,6 +710,34 @@ whereas the inclusion $\mA\subset\mA\rtimes_\alpha G$ remembers the same data
 through the implementing unitaries $\lambda_g$ and the dual coaction
 $\widehat\alpha$. In the trivial case $\mA=\mathbb C$, this reduces to the
 left/right regular duality of Appendix~\ref{sec:group-case-appendix}.
+
+\section{Inclusions of algebras as generalization of groups}
+
+Given an inclusion of 
+
+\subsection{Inclusion of algebras of depth two}
+
+Weak Hopf algebras to groups are Hopf algebras to groupoids.
+
+An inclusion of factors with a trivial relative commutant is called {\it irreducible}. An irreducible inclusion of algebras with finite index is the same data as a Hopf algebra. 
+
+\subsection{Inclusions of algebras of higher depth}
+
+\section*{Appendix A: Algebraic and Measure-Theoretic Structures on Locally Compact Groups}
+\label{app:haar_algebras}
+
+In the construction of our operator algebraic models, it is necessary to formally distinguish the function spaces over the underlying symmetry group $G$. Let $G$ be a locally compact Hausdorff topological group equipped with a left-invariant Haar measure $\mu_L$. 
+
+The translation of the left Haar measure by right multiplication defines the modular function $\Delta: G \to \mathbb{R}^+$, such that $d\mu_L(xg) = \Delta(g) d\mu_L(x)$. For the physical regimes considered in this work, the relevant symmetry groups (being compact, abelian, or semisimple Lie groups) are unimodular, meaning $\Delta(g) = 1$, and the measure is bi-invariant. However, keeping the modular function explicit clarifies the classical origins of the modular operator in Tomita-Takesaki theory, which later governs the emergence of dynamical time in the non-commutative von Neumann algebra setting.
+
+The spaces $L^1(G)$ and $L^\infty(G)$ serve dual, yet algebraically distinct, roles representing states and observables, respectively:
+
+\paragraph{The Observables ($L^\infty(G)$):}
+The space of essentially bounded measurable functions, $L^\infty(G)$, forms a commutative $C^*$-algebra (and specifically, an abelian von Neumann algebra) under pointwise multiplication:
+\begin{equation}
+    (f \cdot g)(x) = f(x)g(x)
+\end{equation}
+Closure under this operation follows from the essential supremum, bounding the product as $\|fg\|_\infty \leq \|f\|_\infty \|g\|_\infty$. On the Hilbert space $L^2(G)$, elements of $L^\infty(G)$ act faithfully as diagonal multiplication operators.
 
 
 \end{document}
