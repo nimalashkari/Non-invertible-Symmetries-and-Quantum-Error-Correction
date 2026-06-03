@@ -23,21 +23,21 @@ In a general locally compact group $G$, we have a left-invariant Haar measure $d
 \begin{align}
     \|f\|_{p,L}=\lb\int d\mu_L(g) |f(g)|^p\rb^{1/p}
 \end{align}
-We also have a right-invariant Haar measure $d\mu_R(g)$ we satisfies
+We also have a right-invariant Haar measure $d\mu_R(g)$, related to the left Haar measure by the modular function $\Delta:G\to\mathbb R_+$ through right translations,
 \begin{align}
-\mu_L(g)=\mu_R(g^{-1})=\Delta(g) \mu_R(g)    
+    d\mu_L(xg)=\Delta(g)d\mu_L(x).
 \end{align}
-where $\Delta(g)$ is called the modular function of $G$. Since $\|f\|_{p,L}=\|f\|_{p,R}$ we simplify our notation by defining $\|f\|_p\equiv \|f\|_{p,L}$ and we will only work with the left-invariant Haar measure $\mu(g)\equiv \mu_L(g)$. To keep track of the right-Haar measure, we introduce the anti-pode map $S:g\to g^{-1}$ which is self-adjoint and satisfies $S=S^\dagger=S^{-1}$. 
+For unimodular groups, and in particular for compact groups, $\Delta(g)=1$ and the left and right Haar measures may be normalized to agree. We then simplify our notation by defining $\|f\|_p\equiv \|f\|_{p,L}$ and work with the Haar measure $\mu\equiv \mu_L=\mu_R$. To keep track of inversion, we introduce the antipode map $S:g\to g^{-1}$, which satisfies $S=S^{-1}$.
 
-For simplicity, we will focus on compact groups, which ensures that the left and right Haar measures match and $\Delta(g)=1$ (the group is unimodular), and the Haar measure is finite. The $L^\infty(G)$ is the isometric dual of $L^1(G)$ via the Hölder pairing,
+For simplicity, we will focus on compact groups, for which the Haar measure is finite. The $L^\infty(G)$ is the isometric dual of $L^1(G)$ via the Hölder pairing,
 \begin{equation}
     \langle f, h \rangle \equiv \int_G f(x) h(x) \, d\mu(x)\ .
 \end{equation}
-For compact groups, we have the inclusion of closed vector spaces
+For compact groups, we have continuous inclusions
 \begin{align}\label{hierLp}
     L^\infty(G)\subseteq L^2(G)\subseteq L^1(G)
 \end{align}
-Note that $L^2(G)$ is self-dual, whereas $L^\infty(G)$ is the Holder dual of  $L^1(G)$ \footnote{In this note, we will be primarily concerned with finite groups where this hierarchy simplifies to $\mathbb{C}(G)\simeq L^1(G)\simeq L^2(G)\simeq L^\infty(G)$.}. 
+Note that $L^2(G)$ is self-dual, whereas $L^\infty(G)$ is the Holder dual of  $L^1(G)$ \footnote{In this note, we will be primarily concerned with finite groups where this hierarchy simplifies to $\mathbb{C}(G)\simeq L^1(G)\simeq L^2(G)\simeq L^\infty(G)$ as vector spaces.}.
 % To make Holder duality manifest, we choose the notation 
 % \begin{align}
 %     &L^\infty(G)\ni \ket{f}=\sum_g f(g) \ket{g}\nn\\
@@ -59,7 +59,7 @@ There are a few comments:
 \begin{itemize}
     \item {\bf Dual group $\hat{G}$:} For Abelian groups, $L^1(G)$ is also Abelian and encodes the geometry of the Fourier space to $G$ that we denote by $\hat{G}$. In the non-Abelian case, we will say that $L^1(G)$ encodes a {\it dual group} $\hat{G}$ which is neither a measurable space nor a group. It is sometimes called a {\it quantum group} (as an example of {\it quantum geometry}). By non-Abelian Gelfand duality, the irreducible representations $r$ of $G$ play the role of {\it quantum points} in the {\it quantum geometry}.
 
-\item {\bf Right convolution algebra:} We can also define a right-convolution multiplication: $(f_1*_R f_2)=f_2* f_1$. With this multiplication, we obtain a different Banach space $L_R^1(G)$, and we can show explicitly that all operators in $L^1(G)$ and $L^1_R(G)$ commute. In fact, they are isometric with the isomorphism established by the anti-pode map $S:g\to g^{-1}$ that swaps the left-convolution with the right-convolution.
+\item {\bf Right convolution algebra:} We can also define right convolution through the right regular operators. If $\iota_1^R(f)=\sum_g f(g)U'_g$, then $\iota_1^R(f)\xi(x)=\int d\mu(g)\, f(g)\xi(xg)$. With this multiplication, we obtain a different Banach space $L_R^1(G)$, and we can show explicitly that all operators in $L^1(G)$ and $L^1_R(G)$ commute. In fact, they are isometric with the isomorphism established by the antipode map $S:g\to g^{-1}$ that swaps the left-convolution with the right-convolution.
 
 \end{itemize}
 
@@ -77,30 +77,31 @@ The right convolution algebra $L^1_R(G)\simeq L^1(G)$ is embedded by the isometr
 \begin{align}
     \iota_1^R(f)=\sum_g f(g) U'_g, \qquad U'_h\equiv \sum_g \ket{g h^{-1}}\bra{g}=\sum_g \ket{g}\bra{g h}=S U_g S
 \end{align}
-where $S$ is the anti-pode. Note that $U_g$ and $U'_g$ are unitary, and we can write 
+where $S$ is the antipode. Note that $U_g$ and $U'_g$ are unitary, and we can write
 \begin{align}
     L^1(G)=\mathbb{C}\rtimes_{\iota_1} G
 \end{align}
-Note that $U_{g_1}U_{g_2}=U_{g_1g_2}$ implies that the multiplication of two functions $\delta(g-g_1)$ and $\delta(g-g_2)$ should result in $\delta(g_1g_2)$ which fixes the multiplication to be convoltuion:
+Note that $U_{g_1}U_{g_2}=U_{g_1g_2}$ implies that the multiplication of two functions $\delta(g-g_1)$ and $\delta(g-g_2)$ should result in $\delta(g_1g_2)$ which fixes the multiplication to be convolution:
 \begin{align}
  \delta(g-g_1)*\delta(g-g_2)=\delta(g-g_1g_2).   
 \end{align}
-Since $S$ acts as a unitary on $B(L^2(G))$ we also have a second representation for $L^\infty(G)$. We inroduce the notation
+Since $S$ acts as a unitary on $B(L^2(G))$ we also have a second representation for $L^\infty(G)$. We introduce the notation
 \begin{align}
     &\iota^\pm_\infty(f)=\sum_g f(g) e_g^\pm, \qquad e_g^+=e_g,\qquad  e_g^-=\ket{g^{-1}}\bra{g^{-1}}\nn\\
-    &\iota^\pm_1(f)=\sum_g g(h) U_g^\pm, \qquad U_g^+=U_g, \qquad U_g^-=U'_g\nn\\
+    &\iota^\pm_1(f)=\sum_g f(g) U_g^\pm, \qquad U_g^+=U_g, \qquad U_g^-=U'_g\nn\\
     &\iota_1^\pm=S\circ \iota_1^\mp\circ S,\qquad \iota_\infty^\pm=S\circ \iota_\infty^\mp\circ S
 \end{align}
 and we have the relations
 \begin{align}
-    &U^\pm_g e_h^\pm=e^\pm_{g h}U_h^\pm,,\qquad U^\mp_g e_h^\pm=e^\pm_{h g^{-1}} U_g^{\mp}
+    &U^\pm_g e_h^\pm=e^\pm_{g h}U_g^\pm,\qquad U^\mp_g e_h^\pm=e^\pm_{h g^{-1}} U_g^{\mp}
 \end{align}
 
 As we saw $L^1_R(G)$ is in the relative commutant of the inclusion $\iota_1$. 
 In fact, we have
 \begin{align}
-    &\iota_1(L^1(G))'\simeq Z(\iota_1(L^1(G)))\vee \iota_1^R(L^1_R(G))\nn\\
-    &\iota_1(L^1(G))\vee \iota_1^R(L^1_R(G))\simeq B(L^2(G))\ .
+    &\iota_1(L^1(G))'\simeq \iota_1^R(L^1_R(G))\nn\\
+    &\iota_1(L^1(G))\vee \iota_1^R(L^1_R(G))\simeq
+    \bigoplus_{r\in\hat G}B(\mH_r\otimes\mH_r^*)\ .
 \end{align}
 Furthermore, we have
 \begin{align}
@@ -116,9 +117,9 @@ For a finite group, it is natural to use the GNS Hilbert space representation of
 Then, we define the projections $P_1^\pm$ and $P_\infty=P_\infty^\pm$
 \begin{align}
     &\mH_1^\pm=P_1^\pm\mH\equiv \overline{\iota_1^\pm(f)\ket{1}}\nn\\
-    &\mH_\infty^\pm=P_\infty^\pm\mH\equiv \overline{\iota_1^\pm(f)\ket{1}}\ .
+    &\mH_\infty^\pm=P_\infty^\pm\mH\equiv \overline{\iota_\infty^\pm(f)\ket{1}}\ .
 \end{align}
-These projections are the {\it canonical endormophism} for the inclusion $\iota_1(L^1(G))\subset B(L^2(G))$.
+These are the projections onto the GNS subspaces associated with the corresponding subalgebras.
 
 \begin{align}
     e_g\to \ket{g}\ket{g},\qquad U_g\to \sum_h \ket{g h}\ket{h}, \qquad S\ket{g}\ket{h}=\ket{h}\ket{g}\ .
@@ -130,25 +131,25 @@ Therefore, we obtain maps
     &\iota_\infty^\dagger\circ \iota_1:L^1(G)\to L^\infty(G)\nn\\
     &\iota_1^\dagger\circ \iota_\infty:L^\infty(G)\to L^1(G)\ .
 \end{align}
-For compact groups, due to the hierarchy eq (\ref{hierLp}),  $\iota_\infty^\dagger\circ \iota_1$ is an embedding ($*$-homomorphism), whereas for finite groups $G$, it is an isomorphism realized by a unitary map that does a non-Abelian Fourier transform, swapping point-by-point multiplication in $G$ by convolution in $G$. 
+These Hilbert-space adjoints are useful linear maps between the two embedded copies of functions. They should not be confused with algebra isomorphisms in the non-Abelian case: the non-Abelian Fourier transform identifies the group algebra with $\oplus_{r\in\hat G}B(\mH_r)$, rather than with the commutative algebra $L^\infty(G)$.
 
 We have a natural action of $G$ on the algebra $L^1(G)$. The subalgebra of $L^1(G)$ invariant under this action the algebra of class functions. That is to say
 \begin{align}
     U_h \lb \sum_g f_g U_g\rb U_{h^{-1}}=\sum_g f_g U_{h g h^{-1}}=\sum_g f_g U_g
 \end{align}
-if and only if $f_g=f_{h g h^{-1}})$. In this case, this subalgebra is isomorphic to $Z(L^1(G))$. 
+if and only if $f_g=f_{h g h^{-1}}$. In this case, this subalgebra is isomorphic to $Z(L^1(G))$.
 
 We aim to study the following inclusion of algebras
 \begin{align}
  Z(L^1(G))\subset L^1(G)\subset B(L^2(G))\ .
 \end{align}
-Note that here $Z(L^1(G))$ is the same as the 
+Note that here $Z(L^1(G))$ is the algebra of class functions under the finite-group identification of $L^1(G)$ with the group algebra.
 
 
 There can be many embeddings of $L^2(G)$ inside $B(L^2(G))$. 
 
 
-To keep our discussion generalizable beyond finite groups, we choose one embedding for $L^\infty(G)$
+To keep our discussion generalizable beyond finite groups, we choose one embedding for $L^\infty(G)$.
 
 There is always a geometric embedding 
 \begin{align}
@@ -164,12 +165,12 @@ An alternative embedding is provided by
 \end{align}
 That results in left convolution multiplication and a non-Abelian algebra if and only if $G$ is non-Abelian.
 
-It is convenient to choose the tracial state on $B(L^2(G))$ and construct the GNS Hilbert space by building the representation:
+It is convenient to choose the tracial state on $B(L^2(G))$ and use the GNS representation described above.
 
 
 This embedding combined with its dual, gives the conditional expectation
 \begin{align}
-(\iota_\infty\circ\iota_\infty^\dagger)(a\in B(L^2(G)))=\sum_g \braket{g|a|g}=\textbf{Tr}_{L^2(G)}(a) 
+(\iota_\infty\circ\iota_\infty^\dagger)(a)=\sum_g \braket{g|a|g}\ket{g}\bra{g}.
 \end{align}
 
 
@@ -208,13 +209,13 @@ and its commutant is
 \end{align}
 This is the left/right representation duality. Note that the center of $\mathcal{L}(G)$ is already included inside $\mathcal{L}(G)'$:
 \begin{align}
-    Z(L^1(G))=\mathcal{L}(G)\cap \mathcal{L}(G)'
+    Z(\mathcal{L}(G))=\mathcal{L}(G)\cap \mathcal{L}(G)'
 \end{align}
-Note that for finite groups we have $\mathcal{L}(G)\simeq L^1(G)\simeq L^2(G)\simeq \mathbb{C}(G)$.
-Applying the Haar average over $G$ projects $L^1(G)$ to $Z(L^1(G))$:
+Note that for finite groups we have $\mathcal{L}(G)\simeq L^1(G)\simeq L^2(G)\simeq \mathbb{C}(G)$ as finite-dimensional vector spaces.
+Applying the Haar average over $G$ projects $\mathcal L(G)$ to $Z(\mathcal L(G))$:
 \begin{align}
     &\mathcal{E}(a)=\frac{1}{|G|}\sum_g U_g a U_g^\dagger\nn\\
-    &\mathcal{E}:L^1(G)\to Z(L^1(G))\ .
+    &\mathcal{E}:\mathcal L(G)\to Z(\mathcal L(G))\ .
 \end{align}
 
 By the Peter--Weyl decomposition,
@@ -455,7 +456,7 @@ When the group $G$ is a \textbf{discrete group} (such as the integers $\mathbb{Z
 
 If the discrete group is further restricted to be a \textbf{finite group}, all notions of infinite sequences and topological closures vanish entirely. The limits collapse, and the spaces perfectly coincide as finite-dimensional vector spaces: $\mathbb{C}[G] \cong \ell^1(G) \cong \mathcal{L}(G)$.
 
-The generalized Fourier transform serves as the mathematical bridge between these branches, intertwining the commutative geometry of $L^\infty(G)$ with the non-commutative dynamics of $\mathcal{L}(G)$ to form a complete Locally Compact Quantum Group.
+The generalized Fourier transform serves as a mathematical bridge between these branches. Together with their coproducts, the commutative geometry of $L^\infty(G)$ and the non-commutative dynamics of $\mathcal{L}(G)$ fit into the locally compact quantum group framework.
 
 \subsection[Example of D8]{Example of $D_8$: Non-Abelian Fourier Transform and Fusion Rules}
 
@@ -476,7 +477,7 @@ The group $D_8$ has five conjugacy classes: $\{e\}$, $\{r^2\}$, $\{r, r^3\}$, $\
 
 \subsubsection*{Deriving Fusion Rules from the Center of $\mathcal{L}(D_8)$}
 
-The fusion rules of the representation category $\mathrm{Rep}(D_8)$ govern how tensor products of representations decompose: $V_i \otimes V_j \cong \bigoplus_k N_{ij}^k V_k$. Interestingly, these fusion rules can be derived directly from the convolution algebra by looking at its center, $Z(\mathcal{L}(D_8))$.
+The fusion rules of the representation category $\mathrm{Rep}(D_8)$ govern how tensor products of representations decompose: $V_i \otimes V_j \cong \bigoplus_k N_{ij}^k V_k$. Interestingly, these fusion rules can be derived from the class functions by looking at the center $Z(\mathcal{L}(D_8))$ as a vector space and using pointwise multiplication of characters.
 
 The center consists of class functions (functions constant on conjugacy classes). Since there are five conjugacy classes, $Z(\mathcal{L}(D_8))$ is a 5-dimensional commutative subalgebra. A natural basis for the center is given by the normalized characters of the irreducible representations, $\chi_i(g) = \Tr(U^i(g))$.
 
@@ -498,7 +499,7 @@ Notice that the sum of the characters of the four 1D representations ($1_A, 1_B,
 \begin{align}
     2_E \otimes 2_E \cong 1_A \oplus 1_B \oplus 1_C \oplus 1_D.
 \end{align}
-This demonstrates how the commutative geometry of the center under pointwise multiplication encodes the non-commutative fusion dynamics of $\mathrm{Rep}(D_8)$.
+This demonstrates how pointwise multiplication of characters encodes the fusion dynamics of $\mathrm{Rep}(D_8)$.
 
 \subsection{Parallel with operator algebraic quantum error correction}
 
