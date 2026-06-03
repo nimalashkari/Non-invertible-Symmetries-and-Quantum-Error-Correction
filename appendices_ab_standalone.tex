@@ -19,7 +19,7 @@
 \section{Mathematical structure in the group case}
 \label{sec:group-case-appendix}
 
-In a general compact group $G$, we have a finite left-invariant Haar measure $d\mu_L(g)$ which allows us to study the group $G$ through the lens of measurable functions that live on it. The Haar measure allows us to define $L_p$-norms
+In a general locally compact group $G$, we have a left-invariant Haar measure $d\mu_L(g)$ which allows us to study the group $G$ through the lens of measurable functions that live on it. The Haar measure allows us to define $L_p$-norms
 \begin{align}
     \|f\|_{p,L}=\lb\int d\mu_L(g) |f(g)|^p\rb^{1/p}
 \end{align}
@@ -27,11 +27,12 @@ We also have a right-invariant Haar measure $d\mu_R(g)$ we satisfies
 \begin{align}
 \mu_L(g)=\mu_R(g^{-1})=\Delta(g) \mu_R(g)    
 \end{align}
-where $\Delta(g)$ is called the modular function of $G$. Since $\|f\|_{p,L}=\|f\|_{p,R}$ we simplify our notation by defining $\|f\|_p\equiv \|f\|_{p,L}$ and we will only work with the left-invariant Haar measure $\mu(g)\equiv \mu_L(g)$. To keep track of the right-Haar measure, we introduce the anti-pode map $S:g\to g^{-1}$ which is self-adjoint and satisfies $S=S^\dagger=S^{-1}$. The $L^\infty(G)$ is the isometric dual of $L^1(G)$ via the Hölder pairing,
+where $\Delta(g)$ is called the modular function of $G$. Since $\|f\|_{p,L}=\|f\|_{p,R}$ we simplify our notation by defining $\|f\|_p\equiv \|f\|_{p,L}$ and we will only work with the left-invariant Haar measure $\mu(g)\equiv \mu_L(g)$. To keep track of the right-Haar measure, we introduce the anti-pode map $S:g\to g^{-1}$ which is self-adjoint and satisfies $S=S^\dagger=S^{-1}$. 
+
+For simplicity, we will focus on compact groups, which ensures that the left and right Haar measures match and $\Delta(g)=1$ (the group is unimodular), and the Haar measure is finite. The $L^\infty(G)$ is the isometric dual of $L^1(G)$ via the Hölder pairing,
 \begin{equation}
     \langle f, h \rangle \equiv \int_G f(x) h(x) \, d\mu(x)\ .
 \end{equation}
-
 For compact groups, we have the inclusion of closed vector spaces
 \begin{align}\label{hierLp}
     L^\infty(G)\subseteq L^2(G)\subseteq L^1(G)
@@ -58,7 +59,7 @@ There are a few comments:
 \begin{itemize}
     \item {\bf Dual group $\hat{G}$:} For Abelian groups, $L^1(G)$ is also Abelian and encodes the geometry of the Fourier space to $G$ that we denote by $\hat{G}$. In the non-Abelian case, we will say that $L^1(G)$ encodes a {\it dual group} $\hat{G}$ which is neither a measurable space nor a group. It is sometimes called a {\it quantum group} (as an example of {\it quantum geometry}). By non-Abelian Gelfand duality, the irreducible representations $r$ of $G$ play the role of {\it quantum points} in the {\it quantum geometry}.
 
-\item {\bf Right convolution algebra:} We can also define a right-convolution multiplication: $(f_1*_R f_2)=f_1* f_2$. With this multiplication, we obtain a different Banach space $L_R^1(G)$, and we can show explicitly that all operators in $L^1(G)$ and $L^1_R(G)$ commute. In fact, they are isometric with the isomorphism established by the anti-pode map $S:g\to g^{-1}$ that swaps the left-convolution with the right-convolution.
+\item {\bf Right convolution algebra:} We can also define a right-convolution multiplication: $(f_1*_R f_2)=f_2* f_1$. With this multiplication, we obtain a different Banach space $L_R^1(G)$, and we can show explicitly that all operators in $L^1(G)$ and $L^1_R(G)$ commute. In fact, they are isometric with the isomorphism established by the anti-pode map $S:g\to g^{-1}$ that swaps the left-convolution with the right-convolution.
 
 \end{itemize}
 
@@ -69,7 +70,7 @@ The algebras above can be represented as subalgebras of operators in the regular
 \end{align}
 with embeddings (representations)
 \begin{align}
-    &\iota_\infty(f)=\sum_g g(h) e_g,\qquad e_g\equiv \ket{g}\bra{g}\nn\\
+    &\iota_\infty(f)=\sum_g f(g) e_g,\qquad e_g\equiv \ket{g}\bra{g}\nn\\
     &\iota_1(f)=\sum_g f(g) U_g, \qquad U_h=\sum_g \ket{h g}\bra{g}\ .
 \end{align}
 The right convolution algebra $L^1_R(G)\simeq L^1(G)$ is embedded by the isometry
@@ -86,7 +87,7 @@ Note that $U_{g_1}U_{g_2}=U_{g_1g_2}$ implies that the multiplication of two fun
 \end{align}
 Since $S$ acts as a unitary on $B(L^2(G))$ we also have a second representation for $L^\infty(G)$. We inroduce the notation
 \begin{align}
-    &\iota^\pm_\infty(f)=\sum_g g(h) e_g^\pm, \qquad e_g^+=e_g,\qquad  e_g^-=\ket{g^{-1}}\bra{g^{-1}}\nn\\
+    &\iota^\pm_\infty(f)=\sum_g f(g) e_g^\pm, \qquad e_g^+=e_g,\qquad  e_g^-=\ket{g^{-1}}\bra{g^{-1}}\nn\\
     &\iota^\pm_1(f)=\sum_g g(h) U_g^\pm, \qquad U_g^+=U_g, \qquad U_g^-=U'_g\nn\\
     &\iota_1^\pm=S\circ \iota_1^\mp\circ S,\qquad \iota_\infty^\pm=S\circ \iota_\infty^\mp\circ S
 \end{align}
@@ -207,7 +208,7 @@ and its commutant is
 \end{align}
 This is the left/right representation duality. Note that the center of $\mathcal{L}(G)$ is already included inside $\mathcal{L}(G)'$:
 \begin{align}
-    Z(\mathcal{L}^1(G))=\mathcal{L}(G)\cap \mathcal{L}(G)'
+    Z(L^1(G))=\mathcal{L}(G)\cap \mathcal{L}(G)'
 \end{align}
 Note that for finite groups we have $\mathcal{L}(G)\simeq L^1(G)\simeq L^2(G)\simeq \mathbb{C}(G)$.
 Applying the Haar average over $G$ projects $L^1(G)$ to $Z(L^1(G))$:
