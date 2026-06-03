@@ -2901,7 +2901,13 @@ Rep($A_4$) sources:
     \item You~\cite{you2025symmetricentanglersnoninvertiblespt}: Lattice discussion of Rep($A_4$) symmetry protected topological phase, discusses action of symmetry but not implementation
 \end{enumerate}
 
-Here we discuss the example of Rep($A_4$) symmetry.  This is a minimal example where the fusion outcomes can have multiplicity greater than one.  The group $A_4$ corresponds to the group of even permutations on four elements.  Geometrically, it is the symmetries of a regular tetrahedron. The group is of order 12, with a presentation
+
+Here, we systematically construct the defect movement and fusion operators of form Rep($G$) from the symmetry operators in Ref.~\cite{tantivasadakarn2026generalizedkwduality}.  First, we find the expression for a defect Hamiltonian using the given non-invertible symmetry operator~\cite{seifnashri2024lsmanomaliesgaugingsymmetries}.  We truncate the symmetry operator to act on a finite spatial region of the lattice.  \color{brown} RepG does not mix with translation so can truncate \color{black}  We then use this truncated symmetry operator $D_{\text{trunc}}$ to define a defect Hamiltonian $H_D$, where $H_D^L$ is related to the original Hamiltonian $H$ by the action $D_{\text{trunc}}H = H_D^LD_{\text{trunc}}$, and $L$ is the location of the defect.  The expression for the fusion operator can be derived by reflating $H$ to $H^L_D$ by the action of some $\lambda^L_D$: $ H\lambda^L_D = H_D^L$.  \color{brown} Since Hamiltonian is taken to be symmetric, we know that the action on local H terms is given via commutation CHECK WITH $D_8$\color{black}.  Truncating the symmetry operator at a different site will give a Hamiltonian with a defect defined at a different site $L'$.  The two Hamiltonians are related via the unitary action of some defect movement operator $U_D$, which can be deduced from the relationship $H_D^L = U^{L-1}_DU^{L-2}_D...U^{L'}_DH_D^{L'}(U^{L'}_D)^\dagger...(U^{L-2}_D)^\dagger(U^{L-1}_D)^\dagger$.  Using these components we can then write down the full UCP map.
+
+When the local tensors comprising the symmetry MPO are unitary, we can identify them with the movement operators for the defects.  We can show this is the case for the MPO tensors presented in~\cite{tantivasadakarn2026generalizedkwduality} for Rep($G$) symmetry.  
+
+
+For concreteness, we discuss the example of Rep($A_4$) symmetry.  This is a minimal example where the fusion outcomes can have multiplicity greater than one.  The group $A_4$ corresponds to the group of even permutations on four elements.  Geometrically, it is the symmetries of a regular tetrahedron. The group is of order 12, with a presentation
 
 \begin{equation}
     A_4 = <s,t\;|s^2 = t^3 = (st)^3 = 1>
@@ -2910,7 +2916,6 @@ Here we discuss the example of Rep($A_4$) symmetry.  This is a minimal example w
 Gauging a theory with $A_4$ symmetry gives a theory with Rep($A_4$) symmetry, with symmetry UCP maps in correspondence with the irreps. of ($A_4$).  \color{brown}Irreps. \color{black}
 
 
-Here, we systematically construct the defect movement and fusion operators of form Rep($G$) from the symmetry operators in Ref.~\cite{tantivasadakarn2026generalizedkwduality}.  First, we find the expression for a defect Hamiltonian using the given non-invertible symmetry operator~\cite{seifnashri2024lsmanomaliesgaugingsymmetries}.  We truncate the symmetry operator to act on a finite spatial region of the lattice.  \color{brown} RepG does not mix with translation so can truncate \color{black}  We then use this truncated symmetry operator $D_{\text{trunc}}$ to define a defect Hamiltonian $H_D$, where $H_D^L$ is related to the original Hamiltonian $H$ by the action $D_{\text{trunc}}H = H_D^LD_{\text{trunc}}$, and $L$ is the location of the defect.  The expression for the fusion operator can be derived by reflating $H$ to $H^L_D$ by the action of some $\lambda^L_D$: $ H\lambda^L_D = H_D^L$.  \color{brown} Since Hamiltonian is taken to be symmetric, we know that the action on local H terms is given via commutation CHECK WITH $D_8$\color{black}.  Truncating the symmetry operator at a different site will give a Hamiltonian with a defect defined at a different site $L'$.  The two Hamiltonians are related via the unitary action of some defect movement operator $U_D$, which can be deduced from the relationship $H_D^L = U^{L-1}_DU^{L-2}_D...U^{L'}_DH_D^{L'}(U^{L'}_D)^\dagger...(U^{L-2}_D)^\dagger(U^{L-1}_D)^\dagger$.  Using these components we can then write down the 
 
 
 
