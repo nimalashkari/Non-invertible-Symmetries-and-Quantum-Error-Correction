@@ -1,0 +1,424 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+\newcommand{\mH}{\mathcal{H}}
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\barA}{\overline{A}}
+\newcommand{\bara}{\overline{a}}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\braket}[2]{\langle #1|#2\rangle}
+\newcommand{\code}{\mathrm{code}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\title{Section 2: QEC and Algebra Inclusions}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Summary of Harlow Section 5 up to Section 5.2}
+
+This note summarizes the part of Daniel Harlow's
+\emph{The Ryu--Takayanagi Formula from Quantum Error Correction}
+\cite{HarlowRTQEC} beginning with Section 5 and ending just before Section 5.2.
+The purpose of that part of the paper is to pass from subsystem quantum error
+correction to \emph{operator-algebra quantum error correction}: instead of
+requiring the recovery of all logical operators, one fixes a finite-dimensional
+von Neumann algebra \(M\subset \mB(\mH_{\code})\) and asks only for the recovery
+of the operators in \(M\).  This is the natural setting for entanglement wedge
+reconstruction when the relevant bulk algebra has a nontrivial center.
+
+\subsection*{Finite-dimensional von Neumann algebras}
+
+Let \(\mH_{\code}\) be finite-dimensional and let \(M\subset \mB(\mH_{\code})\)
+be a unital \(*\)-subalgebra.  In finite dimension this is a von Neumann
+algebra.  The finite-dimensional classification theorem gives a canonical block
+decomposition
+\begin{equation}
+    \mH_{\code}
+    =
+    \bigoplus_{\alpha}
+    \left(\mH_{a_\alpha}\otimes \mH_{\bara_\alpha}\right),
+    \label{eq:code-block-decomp}
+\end{equation}
+such that
+\begin{align}
+    M
+    &=
+    \bigoplus_{\alpha}
+    \left(\mB(\mH_{a_\alpha})\otimes I_{\bara_\alpha}\right),
+    \label{eq:M-block-form}\\
+    M'
+    &=
+    \bigoplus_{\alpha}
+    \left(I_{a_\alpha}\otimes \mB(\mH_{\bara_\alpha})\right),
+    \label{eq:commutant-block-form}\\
+    Z(M)
+    &=
+    M\cap M'
+    =
+    \left\{
+    \bigoplus_\alpha
+    \lambda_\alpha I_{a_\alpha}\otimes I_{\bara_\alpha}
+    :
+    \lambda_\alpha\in\mathbb C
+    \right\}.
+    \label{eq:center-block-form}
+\end{align}
+Thus each block \(\alpha\) is a superselection sector associated with the
+center.  Inside a fixed \(\alpha\)-block, \(M\) acts only on the
+\(a_\alpha\)-factor, while \(M'\) acts only on the \(\bara_\alpha\)-factor.
+The special case in which there is only one block is precisely a factor
+algebra, recovering ordinary subsystem QEC.
+
+For a state \(\wt{\rho}\) on \(\mH_{\code}\), write
+\(\wt{\rho}_{\alpha\alpha}\) for its diagonal block in
+\eqref{eq:code-block-decomp}.  Define
+\begin{align}
+    p_\alpha \wt{\rho}_{a_\alpha}
+    &:=
+    \Tr_{\bara_\alpha}\wt{\rho}_{\alpha\alpha},
+    &
+    p_\alpha \wt{\rho}_{\bara_\alpha}
+    &:=
+    \Tr_{a_\alpha}\wt{\rho}_{\alpha\alpha},
+    \label{eq:block-reduced-states}
+\end{align}
+with \(p_\alpha\ge 0\), \(\sum_\alpha p_\alpha=1\), and each reduced density
+matrix normalized when \(p_\alpha\ne0\).  The algebraic entropies are
+\begin{align}
+    S(\wt{\rho},M)
+    &=
+    -\sum_\alpha p_\alpha\log p_\alpha
+    +
+    \sum_\alpha p_\alpha S(\wt{\rho}_{a_\alpha}),
+    \label{eq:alg-entropy-M}\\
+    S(\wt{\rho},M')
+    &=
+    -\sum_\alpha p_\alpha\log p_\alpha
+    +
+    \sum_\alpha p_\alpha S(\wt{\rho}_{\bara_\alpha}).
+    \label{eq:alg-entropy-Mprime}
+\end{align}
+The first term is the Shannon entropy of the central sector, and the second is
+the sector-averaged ordinary von Neumann entropy.
+
+\subsection*{A rigorous form of Harlow's Theorem 5.1}
+
+Let the physical Hilbert space factorize as
+\[
+    \mH=\mH_A\otimes\mH_{\barA},
+\]
+and let \(\mH_{\code}\subset \mH\) be a code subspace with projection
+\(P_{\code}\).  Let \(V:\mH_{\code}\hookrightarrow \mH_A\otimes\mH_{\barA}\)
+denote the inclusion isometry.  Choose orthonormal bases
+\(\{\ket{\alpha,i}_{a_\alpha}\}\) and
+\(\{\ket{\alpha,j}_{\bara_\alpha}\}\), and write
+\[
+    \ket{\wt{\alpha,ij}}
+    :=
+    V\left(
+    \ket{\alpha,i}_{a_\alpha}\otimes
+    \ket{\alpha,j}_{\bara_\alpha}
+    \right).
+\]
+Let \(R\) be a reference system isomorphic to \(\mH_{\code}\), with basis
+\(\{\ket{\alpha,ij}_R\}\), and define the maximally entangled state between
+the reference and the code:
+\begin{equation}
+    \ket{\Phi}
+    =
+    \frac{1}{\sqrt{|\mH_{\code}|}}
+    \sum_{\alpha,i,j}
+    \ket{\alpha,ij}_R
+    \ket{\wt{\alpha,ij}}_{A\barA}.
+    \label{eq:reference-state}
+\end{equation}
+For \(O\in M\), define \(O_R\) to be the operator on \(R\) with the same matrix
+elements as \(O^T\) in the chosen basis, equivalently the unique operator
+satisfying
+\[
+    O_R\ket{\Phi}=O\ket{\Phi},
+    \qquad
+    O_R^\dagger\ket{\Phi}=O^\dagger\ket{\Phi}.
+\]
+
+\begin{theorem}[Operator-algebra erasure correction]
+\label{thm:harlow-oa-qec}
+With the setup above, the following four statements are equivalent.
+
+\begin{enumerate}
+    \item \textbf{Structural decoding form.}
+    There is a decomposition
+    \begin{equation}
+        \mH_A
+        =
+        \bigoplus_\alpha
+        \left(
+        \mH_{A_1^\alpha}\otimes \mH_{A_2^\alpha}
+        \right)
+        \oplus \mH_{A_3},
+        \qquad
+        \dim \mH_{A_1^\alpha}=\dim \mH_{a_\alpha},
+        \label{eq:A-decomp}
+    \end{equation}
+    so in particular \(\sum_\alpha \dim \mH_{a_\alpha}\leq \dim \mH_A\), a
+    unitary \(U_A\) on \(\mH_A\), and for every \(\alpha\) a set of orthonormal
+    states
+    \[
+        \ket{\chi_{\alpha,j}}_{A_2^\alpha\barA}
+        \in
+        \mH_{A_2^\alpha}\otimes \mH_{\barA}
+    \]
+    such that
+    \begin{equation}
+        \ket{\wt{\alpha,ij}}
+        =
+        U_A
+        \left(
+        \ket{\alpha,i}_{A_1^\alpha}
+        \otimes
+        \ket{\chi_{\alpha,j}}_{A_2^\alpha\barA}
+        \right).
+        \label{eq:structure-decoding}
+    \end{equation}
+
+    \item \textbf{Logical reconstruction on \(A\).}
+    For every \(O\in M\), there exists an operator \(O_A\in\mB(\mH_A)\) such
+    that for every \(\ket{\wt{\psi}}\in\mH_{\code}\),
+    \begin{equation}
+        O_A\ket{\wt{\psi}}=O\ket{\wt{\psi}},
+        \qquad
+        O_A^\dagger\ket{\wt{\psi}}=O^\dagger\ket{\wt{\psi}}.
+        \label{eq:reconstruction-A}
+    \end{equation}
+
+    \item \textbf{Environment algebra compresses into the commutant.}
+    For every \(X_{\barA}\in\mB(\mH_{\barA})\), the compressed operator
+    \(P_{\code}X_{\barA}P_{\code}\), viewed as an operator on
+    \(\mH_{\code}\), lies in \(M'\):
+    \begin{equation}
+        P_{\code}X_{\barA}P_{\code}
+        =
+        X'P_{\code}
+        \qquad
+        \text{for some } X'\in M'.
+        \label{eq:compressed-environment}
+    \end{equation}
+
+    \item \textbf{Reference--environment commutation criterion.}
+    For every \(O\in M\),
+    \begin{equation}
+        [O_R,\rho_{R\barA}(\Phi)]=0,
+        \label{eq:reference-criterion}
+    \end{equation}
+    where \(\rho_{R\barA}(\Phi)=\Tr_A\ket{\Phi}\bra{\Phi}\).
+\end{enumerate}
+\end{theorem}
+
+\paragraph{Interpretation.}
+Condition \eqref{eq:reconstruction-A} says that the logical algebra \(M\) is
+recoverable after erasing \(\barA\).  Condition
+\eqref{eq:compressed-environment} is the Heisenberg-picture no-disturbance
+criterion: operators on the erased subsystem can act nontrivially on the code,
+but only through the commutant \(M'\), never through the protected algebra
+\(M\).  Condition \eqref{eq:reference-criterion} is the information-disturbance
+formulation: the joint state of the reference and erased subsystem may retain
+information, but it must commute with the reference copy of \(M\).  Thus the
+erased subsystem can know about \(M'\) and about the central label \(\alpha\),
+but not about the quantum degrees of freedom protected by \(M\).
+
+\paragraph{Proof skeleton.}
+The implication \((1)\Rightarrow(2)\) is constructive.  If \(O\in M\) has block
+form \(O=\oplus_\alpha (O_{a_\alpha}\otimes I_{\bara_\alpha})\), define
+\[
+    O_A
+    =
+    U_A
+    \left[
+    \bigoplus_\alpha
+    \left(
+    O_{A_1^\alpha}\otimes I_{A_2^\alpha}
+    \right)
+    \right]
+    U_A^\dagger,
+\]
+where \(O_{A_1^\alpha}\) has the same matrix elements as
+\(O_{a_\alpha}\).  Equation \eqref{eq:structure-decoding} then gives
+\eqref{eq:reconstruction-A}.
+
+For \((2)\Rightarrow(3)\), suppose the compressed environment operator
+\(x'=P_{\code}X_{\barA}P_{\code}\) were not in \(M'\).  Then there would be
+some \(O\in M\) with \([x',O]\ne0\).  Hence there are code vectors
+\(\ket{\wt{\psi}}\) and \(\ket{\wt{\eta}}\) with
+\[
+    \bra{\wt{\psi}}[x',O]\ket{\wt{\eta}}\ne0.
+\]
+But \(X_{\barA}\) commutes with every reconstruction \(O_A\) on \(A\), and
+condition (2) identifies the matrix elements of \(O_A\) and \(O\) on the code.
+This forces all such code matrix elements of \([x',O]\) to vanish, a
+contradiction.  Hence \(x'\in M'\).
+
+For \((3)\Rightarrow(4)\), insert arbitrary test operators
+\(X_{\barA}\) and \(Y_R\) and use \eqref{eq:compressed-environment}:
+\[
+    \Tr_{R\barA}
+    \left(
+    O_R\rho_{R\barA}(\Phi)X_{\barA}Y_R
+    \right)
+    =
+    \Tr_{R\barA}
+    \left(
+    \rho_{R\barA}(\Phi)O_RX_{\barA}Y_R
+    \right).
+\]
+Since this holds for all \(X_{\barA}\) and \(Y_R\), the density matrix
+\(\rho_{R\barA}(\Phi)\) commutes with \(O_R\).
+
+For \((4)\Rightarrow(1)\), decompose the reference as
+\[
+    \mH_R
+    =
+    \bigoplus_\alpha
+    \left(
+    \mH_{R_\alpha}\otimes\mH_{\bar R_\alpha}
+    \right),
+    \qquad
+    \dim R_\alpha=\dim a_\alpha,\quad
+    \dim \bar R_\alpha=\dim \bara_\alpha .
+\]
+Because \(O_R\) ranges over
+\(\oplus_\alpha(\mB(R_\alpha)\otimes I_{\bar R_\alpha})\), the commutation
+condition \eqref{eq:reference-criterion} forces
+\begin{equation}
+    \rho_{R\barA}(\Phi)
+    =
+    \bigoplus_\alpha
+    \frac{|R_\alpha||\bar R_\alpha|}{|\mH_{\code}|}
+    \left(
+    \frac{I_{R_\alpha}}{|R_\alpha|}
+    \otimes
+    \rho_{\bar R_\alpha\barA}^{(\alpha)}
+    \right).
+    \label{eq:rho-block-form}
+\end{equation}
+The marginal on \(R\) is maximally mixed, so
+\[
+    \Tr_{\barA}\rho_{\bar R_\alpha\barA}^{(\alpha)}
+    =
+    \frac{I_{\bar R_\alpha}}{|\bar R_\alpha|}.
+\]
+Since \(\ket{\Phi}\) purifies \(\rho_{R\barA}(\Phi)\) on \(A\), the Schmidt
+rank condition implies
+\[
+    \sum_\alpha
+    |R_\alpha|\,
+    \operatorname{rank}\rho_{\bar R_\alpha\barA}^{(\alpha)}
+    \le
+    |A|.
+\]
+One can therefore choose the direct-sum decomposition
+\eqref{eq:A-decomp} with enough room in each \(A_2^\alpha\) to purify
+\(\rho_{\bar R_\alpha\barA}^{(\alpha)}\).  Such a purification can be written
+as
+\[
+    \ket{\psi_\alpha}_{\bar R_\alpha A_2^\alpha\barA}
+    =
+    \frac{1}{\sqrt{|\bar R_\alpha|}}
+    \sum_j
+    \ket{\alpha,j}_{\bar R_\alpha}
+    \ket{\chi_{\alpha,j}}_{A_2^\alpha\barA},
+\]
+and the maximally mixed marginal on \(\bar R_\alpha\) implies that the
+\(\ket{\chi_{\alpha,j}}\) are orthonormal.  Combining these purifications gives
+a state of the form \eqref{eq:structure-decoding}; since it and
+\(\ket{\Phi}\) purify the same \(\rho_{R\barA}(\Phi)\), they differ by a
+unitary on \(A\).  This gives condition (1).
+
+\subsection*{Complementary recovery and algebra inclusions}
+
+For holographic applications Harlow imposes a complementary recovery condition:
+not only should \(M\) be reconstructable on \(A\), but \(M'\) should be
+reconstructable on \(\barA\).  Applying Theorem
+\ref{thm:harlow-oa-qec} to both sides gives the normal form
+\begin{equation}
+    \ket{\wt{\alpha,ij}}
+    =
+    U_AU_{\barA}
+    \left(
+    \ket{\alpha,i}_{A_1^\alpha}
+    \ket{\alpha,j}_{\barA_1^\alpha}
+    \ket{\chi_\alpha}_{A_2^\alpha\barA_2^\alpha}
+    \right),
+    \label{eq:complementary-normal-form}
+\end{equation}
+with
+\[
+    \dim A_1^\alpha=\dim a_\alpha,
+    \qquad
+    \dim \barA_1^\alpha=\dim \bara_\alpha.
+\]
+This is the operator-algebraic version of the subsystem-code circuit picture.
+After local decoding unitaries, the logical algebra inclusion is visible block
+by block:
+\[
+    M
+    \hookrightarrow
+    \bigoplus_\alpha
+    \mB(\mH_{A_1^\alpha})\otimes I_{A_2^\alpha},
+    \qquad
+    M'
+    \hookrightarrow
+    \bigoplus_\alpha
+    I_{\barA_1^\alpha}\otimes \mB(\mH_{\barA_1^\alpha}).
+\]
+The center is the shared classical label \(\alpha\).  The entangled states
+\(\ket{\chi_\alpha}_{A_2^\alpha\barA_2^\alpha}\) are not logical degrees of
+freedom; rather, they are the universal entanglement resource that later
+produces the area term in Section 5.2.
+
+\subsection*{Minimal example}
+
+The example at the end of Harlow's Section 5.1 is the two-qubit repetition
+code
+\[
+    \ket{\wt{0}}=\ket{00},
+    \qquad
+    \ket{\wt{1}}=\ket{11}.
+\]
+Let \(M\) be the abelian algebra generated by the logical identity and logical
+\(\wt{Z}\), where
+\[
+    \wt{Z}\ket{\wt{0}}=\ket{\wt{0}},
+    \qquad
+    \wt{Z}\ket{\wt{1}}=-\ket{\wt{1}}.
+\]
+Here \(M=M'=Z(M)\): the algebra is purely central and has no noncommutative
+matrix block.  The logical \(\wt{Z}\) is reconstructable on either physical
+qubit, since \(Z_1\) and \(Z_2\) both act as \(\wt{Z}\) on the code subspace.
+This example illustrates why algebraic QEC is strictly more flexible than
+factor/subsystem QEC: a central observable can be redundantly accessible on both
+sides without either side recovering the full logical state.
+
+\begin{thebibliography}{9}
+\bibitem{HarlowRTQEC}
+D. Harlow,
+\emph{The Ryu--Takayanagi Formula from Quantum Error Correction},
+arXiv:1607.03901.
+\url{https://arxiv.org/abs/1607.03901}.
+\end{thebibliography}
+
+\end{document}
