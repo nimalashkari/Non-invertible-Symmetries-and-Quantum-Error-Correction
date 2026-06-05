@@ -19,6 +19,8 @@
 \section{Mathematical structure in the group case}
 \label{sec:group-case-appendix}
 
+\subsection{Two choices of algebras}
+
 In a general locally compact group $G$, we have a left-invariant Haar measure $d\mu_L(g)$ which allows us to study the group $G$ through the lens of measurable functions that live on it. The Haar measure allows us to define $L_p$-norms
 \begin{align}
     \|f\|_{p,L}=\lb\int d\mu_L(g) |f(g)|^p\rb^{1/p}
@@ -45,14 +47,14 @@ Note that $L^2(G)$ is self-dual, whereas $L^\infty(G)$ is the Holder dual of  $L
 % \end{align}
 To turn these linear vector spaces into algebras, there are two choices of multiplication we can make:
 \begin{align}
-    &(f_1\cdot f_2)(g)=f_1(g)f_2(g)\nn\\
-    &(f_1*f_2)(g)=\int d\mu(h) \: f_1(h)f_2(h^{-1}g)
+    &\text{Pointwise}: \qquad (f_1\cdot f_2)(g)=f_1(g)f_2(g)\nn\\
+    &\text{Convolution}:\qquad (f_1*f_2)(g)=\int d\mu(h) \: f_1(h)f_2(h^{-1}g)
 \end{align}
 These multiplications result in two different algebras: the Abelian algebra of $L^\infty(G)$, which encodes the geometry of $G$, and the convolution algebra $L^1(G)$, which is non-Abelian if and only if $G$ is non-Abelian. 
 
-\paragraph{Algebra of observables $L^\infty(G)$:} The first multiplication is manifestly commutative, and since $\|f_1\cdot f_2 \|_\infty\leq \|f_1\|_\infty\|f_2\|_\infty$, the vector space $L^\infty(G)$ is closed with respect to this multiplication, and hence an Abelian algebra. This Abelian algebra encodes the {\it geometry of group $G$} \footnote{For any measurable space $X$, we have an Abelian algebra $L^\infty(X)$, and a classical result establishes that to every Abelian algebra one can associate a measurable space. We will refer to this as classical Gelfand duality.}. In an analogy with classical mechanics that interprets $G$ as the phase space, functions $L^\infty(G)$ have the interpretation of classical observables. 
+\paragraph{Algebra of observables $L^\infty(G)$:} Pointwise multiplication is manifestly commutative, and since $\|f_1\cdot f_2 \|_\infty\leq \|f_1\|_\infty\|f_2\|_\infty$, the vector space $L^\infty(G)$ is closed with respect to this multiplication, and hence an Abelian algebra. This Abelian algebra encodes the {\it geometry of group $G$} \footnote{For any measurable space $X$, we have an Abelian algebra $L^\infty(X)$, and a classical result establishes that to every Abelian algebra one can associate a measurable space. We will refer to this as classical Gelfand duality. In an analogy with classical mechanics that interprets $G$ as the phase space, functions $L^\infty(G)$ have the interpretation of classical observables.}. 
 
-\paragraph{Algebra of states $L^1(G)$ (pre-dual):} In contrast, $L^1(G)$ does not form an algebra under pointwise multiplication due to non-integrable singularities in the squared functions. Instead, it forms a Banach algebra under left convolution. By Young's convolution inequality, $\|f * g\|_1 \leq \|f\|_1 \|g\|_1$, ensuring closure. In the left regular representation, these $L^1$ functions define bounded integral operators that smear the group action over the manifold.
+\paragraph{Algebra of states $L^1(G)$ (pre-dual):} Convolution multiplication results in an $L^1(G)$ because, by Young's convolution inequality, $\|f * g\|_1 \leq \|f\|_1 \|g\|_1$, ensuring closure \footnote{Note that $L^1(G)$ does not form an algebra under pointwise multiplication due to non-integrable singularities in the squared functions.}. In the left regular representation, these $L^1$ functions define bounded integral operators that smear the group action over the manifold.
 
 There are a few comments:
 
@@ -62,6 +64,8 @@ There are a few comments:
 \item {\bf Right convolution algebra:} We can also define right convolution through the right regular operators. If $\iota_1^R(f)=\sum_g f(g)U'_g$, then $\iota_1^R(f)\xi(x)=\int d\mu(g)\, f(g)\xi(xg)$. With this multiplication, we obtain a different Banach space $L_R^1(G)$, and we can show explicitly that all operators in $L^1(G)$ and $L^1_R(G)$ commute. In fact, they are isometric with the isomorphism established by the antipode map $S:g\to g^{-1}$ that swaps the left-convolution with the right-convolution.
 
 \end{itemize}
+
+\subsection{Embedding inside $B(L^2(G))$}
 
 The algebras above can be represented as subalgebras of operators in the regular representation $L^2(G)$:
 \begin{align}
@@ -81,9 +85,9 @@ where $S$ is the antipode. Note that $U_g$ and $U'_g$ are unitary, and we can wr
 \begin{align}
     L^1(G)=\mathbb{C}\rtimes_{\iota_1} G
 \end{align}
-Note that $U_{g_1}U_{g_2}=U_{g_1g_2}$ implies that the multiplication of two functions $\delta(g-g_1)$ and $\delta(g-g_2)$ should result in $\delta(g_1g_2)$ which fixes the multiplication to be convolution:
+Note that $U_{g_1}U_{g_2}=U_{g_1g_2}$ implies that the multiplication of two functions $\delta_{g,g_1}$ and $\delta_{g,g_2}$ should result in $\delta_{g,g_1g_2}$ which fixes the multiplication to be convolution:
 \begin{align}
- \delta(g-g_1)*\delta(g-g_2)=\delta(g-g_1g_2).   
+ \delta_{g,g_1}*\delta_{g,g_2}=\delta_{g,g_1g_2}.   
 \end{align}
 Since $S$ acts as a unitary on $B(L^2(G))$ we also have a second representation for $L^\infty(G)$. We introduce the notation
 \begin{align}
@@ -107,6 +111,8 @@ Furthermore, we have
 \begin{align}
     L^1(G)\vee L^\infty(G)=B(L^2(G))\ .
 \end{align}
+
+\subsection{GNS representation}
 
 For a finite group, it is natural to use the GNS Hilbert space representation of $B(L^2(G))$ in the tracial state
 \begin{align}
